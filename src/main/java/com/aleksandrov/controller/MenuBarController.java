@@ -6,6 +6,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Alert.AlertType;
 
+
+/**
+ * separate controller for menu bar
+ * @author Admin
+ *
+ */
 public class MenuBarController {
 	public Main main;
 	
