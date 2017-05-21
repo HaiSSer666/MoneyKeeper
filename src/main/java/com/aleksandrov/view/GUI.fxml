@@ -139,7 +139,6 @@
                         </Label>
                      </children>
                   </HBox>
-                  <Button fx:id="testButton" layoutX="877.0" layoutY="1.0" mnemonicParsing="false" onAction="#testButtonHandler" text="Button" />
                </children>
             </AnchorPane>
         </items>
