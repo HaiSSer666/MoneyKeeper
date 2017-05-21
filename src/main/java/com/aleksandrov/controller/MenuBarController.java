@@ -10,7 +10,7 @@ import javafx.scene.control.Alert.AlertType;
 /**
  * separate controller for menu bar
  * @author Admin
- *
+ * now I test git in eclipse
  */
 public class MenuBarController {
 	public Main main;
