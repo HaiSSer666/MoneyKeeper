@@ -37,14 +37,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class GUIController {
-	@FXML
-	Button testButton;
-	@FXML
-	public void testButtonHandler() throws InterruptedException{
-		Thread.sleep(3000);
-		textAreaComment.setText("***");
-	}
-	
 	
 	//variables
 	public double totalAmountKost;

@@ -20,8 +20,7 @@ public class Main extends Application {
         this.primaryStage.setTitle("MoneyKeeper");
         this.primaryStage.getIcons().add(new Image("file:src/main/resources/images/piggybank-512.png"));
         //MenuLoader();
-        GUILoader();
-        
+        GUILoader();    
     }
 	
 	/*public void MenuLoader() {
