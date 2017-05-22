@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="mainApp_ID" prefHeight="710.0" prefWidth="1040.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aleksandrov.controller.GUIController">
+   <children>
+   <fx:include source="MenuView.fxml" />
+   <!-- <MenuBar layoutY="2.0" prefHeight="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        
+          <menus>
+          <Menu id="menuFile_ID" mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem fx:id="exitItem" mnemonicParsing="false" onAction="#handleExitItem" text="Close" />
+            </items>
+          </Menu>
+          <Menu id="menuEdit_ID" mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem fx:id="deleteItem" mnemonicParsing="false" onAction="#handleDeleteMenuItem" text="Delete" />
+                  <MenuItem fx:id="deleteAllItem" mnemonicParsing="false" onAction="#handleDeleteAllMenuItem" text="Delete all" />
+            </items>
+          </Menu>
+          <Menu id="menuHelp_ID" mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem fx:id="aboutItem" mnemonicParsing="false" onAction="#handleAboutItem" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>-->
+      <Button fx:id="addButton" disable="true" layoutX="766.0" layoutY="34.0" mnemonicParsing="false" onAction="#handleAddButton" prefHeight="25.0" prefWidth="70.0" text="Add " />
+      <Button fx:id="cancelButton" disable="true" layoutX="766.0" layoutY="71.0" mnemonicParsing="false" onAction="#handleCancelButton" prefHeight="25.0" prefWidth="70.0" text="Cancel" />
+      <TextField fx:id="textFieldSum" layoutX="17.0" layoutY="71.0" prefHeight="25.0" prefWidth="106.0" AnchorPane.leftAnchor="14.0">
+         <tooltip>
+            <Tooltip text="Sum of money must be greater than 0!" />
+         </tooltip></TextField>
+      <Label layoutX="14.0" layoutY="34.0" prefHeight="25.0" prefWidth="133.0" text="Enter sum of money:" AnchorPane.leftAnchor="14.0" />
+      <TextField fx:id="textFieldCategory" layoutX="147.0" layoutY="71.0">
+         <tooltip>
+            <Tooltip text="Catagory must contain only 1 word!" />
+         </tooltip></TextField>
+      <Label layoutX="147.0" layoutY="38.0" text="Enter category:" />
+      <TextArea fx:id="textAreaComment" layoutX="331.0" layoutY="65.0" prefHeight="25.0" prefWidth="248.0">
+         <tooltip>
+            <Tooltip text="This field is optional!" />
+         </tooltip></TextArea>
+      <Label layoutX="331.0" layoutY="38.0" text="Comment:" />
+      <RadioButton fx:id="radioKost" layoutX="597.0" layoutY="75.0" mnemonicParsing="false" selected="true" text="Kost">
+         <toggleGroup>
+            <ToggleGroup fx:id="typeOfKost" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="radioGain" layoutX="672.0" layoutY="75.0" mnemonicParsing="false" text="Gain" toggleGroup="$typeOfKost" />
+      <Label layoutX="597.0" layoutY="38.0" prefHeight="17.0" prefWidth="149.0" text="Choose type of the sum:" />
+      <TabPane layoutY="111.0" prefHeight="572.0" prefWidth="850.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="111.0">
+        <tabs>
+          <Tab id="tableTab" text="Table">
+               <content>
+                  <TableView fx:id="tableOfKosts" prefHeight="550.0" prefWidth="580.0">
+                    <columns>
+                      <TableColumn fx:id="columnAmount" prefWidth="98.0" resizable="false" text="Sum" />
+                      <TableColumn fx:id="columnCategory" prefWidth="123.0" resizable="false" text="Category" />
+                        <TableColumn fx:id="columnType" prefWidth="78.0" resizable="false" text="Type" />
+                        <TableColumn fx:id="columnDate" prefWidth="186.0" resizable="false" text="Date" />
+                        <TableColumn fx:id="columnComment" prefWidth="365.0" resizable="false" text="Comment" />
+                    </columns>
+                  </TableView>
+               </content></Tab>
+          <Tab id="pieChartTab" text="Pie Chart">
+               <content>
+                  <PieChart id="pieChart_ID" fx:id="pieChart" />
+               </content></Tab>
+          <Tab id="barChartTab" text="Bar Chart">
+               <content>
+                  <BarChart fx:id="barChart" prefHeight="543.0" prefWidth="830.0">
+                    <xAxis>
+                      <CategoryAxis side="BOTTOM" fx:id="xAxis" />
+                    </xAxis>
+                    <yAxis>
+                      <NumberAxis fx:id="yAxis" side="LEFT" />
+                    </yAxis>
+                  </BarChart>
+               </content></Tab>
+        </tabs>
+      </TabPane>
+      <SplitPane layoutY="687.0" orientation="VERTICAL" prefHeight="31.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="28.0" prefWidth="580.0">
+               <children>
+                  <HBox prefHeight="27.0" prefWidth="828.0">
+                     <children>
+                        <Label prefHeight="15.0" prefWidth="180.0" text="Total kosts amount = ">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label id="labelKost_ID" fx:id="labelTotalAmountKost" prefHeight="17.0" prefWidth="106.0" text="0.0">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label text="Total gains amount = ">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label id="labelGain_ID" fx:id="labelTotalAmountGain" prefHeight="17.0" prefWidth="106.0" text="0.0">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label text="Difference = ">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label id="labelDifference_ID" fx:id="labelDifference" prefHeight="27.0" prefWidth="106.0" text="0.0">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+      <DatePicker fx:id="datePicker" layoutX="852.0" layoutY="71.0" prefHeight="25.0" prefWidth="174.0" showWeekNumbers="true" visible="false" />
+      <Label layoutX="852.0" layoutY="38.0" text="Date of purcahse/income" visible="false" />
+   </children>
+</AnchorPane>
