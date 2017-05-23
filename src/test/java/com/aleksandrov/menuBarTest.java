@@ -77,8 +77,8 @@ public class menuBarTest extends MoneyKeeperGUITestAbstract{
 	@Test
 	public void helpMenuItemTest() {
 		clickOn("#menuHelp_ID").moveTo("#aboutItem").clickOn();
-		sleep(1000);
-		//verifyThat(".dialog-pane", NodeMatchers.isVisible());
+		sleep(500);
+		verifyThat(".dialog-pane", NodeMatchers.isVisible());
 		clickOn("OK");
 		System.out.println("4.4. Help dialog was shown");
 	}

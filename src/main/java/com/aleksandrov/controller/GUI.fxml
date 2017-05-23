@@ -24,9 +24,12 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="mainApp_ID" prefHeight="710.0" prefWidth="1040.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aleksandrov.controller.GUIController">
+<AnchorPane id="mainApp_ID" prefHeight="710.0" prefWidth="1040.0" 
+xmlns="http://javafx.com/javafx/8.0.111" 
+xmlns:fx="http://javafx.com/fxml/1" 
+fx:controller="com.aleksandrov.controller.GUIController">
    <children>
-   <fx:include source="MenuView.fxml" />
+   <fx:include fx:id="menuView" source="MenuView.fxml"/>
    <!-- <MenuBar layoutY="2.0" prefHeight="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         
           <menus>

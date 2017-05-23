@@ -9,7 +9,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Optional;
-
 import com.aleksandrov.Main;
 import com.aleksandrov.model.Kost;
 import com.aleksandrov.model.SpendType;
@@ -39,12 +38,17 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class GUIController {
+public class GUIController {	
+	//links to sub controllers
+	@FXML
+	public MenuViewController menuViewController;
+	
+	//link to main app
+	public Main main;
 	
 	//variables
 	public double totalAmountKost;
 	public double totalAmountGain;
-	public Main main;
 	
 	//labels
 	@FXML
@@ -57,6 +61,7 @@ public class GUIController {
 	//text fields
 	@FXML
 	TextField textFieldSum;
+
 	@FXML
 	TextField textFieldCategory;
 	@FXML
@@ -75,14 +80,14 @@ public class GUIController {
 	Button cancelButton;
 
 	//menu items
-	@FXML
+	/*@FXML
 	MenuItem aboutItem;
 	@FXML
 	MenuItem exitItem;
 	@FXML
 	MenuItem deleteItem;
 	@FXML
-	MenuItem deleteAllItem;
+	MenuItem deleteAllItem;*/
 	
 	//charts and axis
 	@FXML
@@ -107,7 +112,12 @@ public class GUIController {
 
 	//table columns
 	@FXML
-	public TableView<Kost> tableOfKosts;
+	private TableView<Kost> tableOfKosts;
+	
+	public TableView<Kost> getTableOfKosts() {
+		return tableOfKosts;
+	}
+
 	@FXML
 	TableColumn<Kost, Double> columnAmount;
 	@FXML
@@ -118,7 +128,32 @@ public class GUIController {
 	TableColumn<Kost, Date> columnDate; //LocalDate -> Date
 	@FXML
 	TableColumn<Kost, String> columnComment;
+	
+	/*--------------------------------------getters for sub controllers-----------------------------------------------------------------*/	
+	public double getTotalAmountKost() {
+		return totalAmountKost;
+	}
 
+	public double getTotalAmountGain() {
+		return totalAmountGain;
+	}
+
+	public XYChart.Series<String, Double> getSeriesTotalKosts() {
+		return seriesTotalKosts;
+	}
+
+	public XYChart.Series<String, Double> getSeriesTotalGains() {
+		return seriesTotalGains;
+	}
+
+	public XYChart.Series<String, Double> getSeriesTotalDifference() {
+		return seriesTotalDifference;
+	}
+
+	public ObservableList<PieChart.Data> getPieChartData() {
+		return pieChartData;
+	}
+	
 	/*--------------------------------------Start-up methods----------------------------------------------------------------------------*/		
 	public GUIController() {
 	}
@@ -127,6 +162,8 @@ public class GUIController {
 	@SuppressWarnings("unchecked")
 	@FXML
 	private void initialize() {	
+		menuViewController.setGuiController(this);
+		
 		columnAmount.setCellValueFactory(new PropertyValueFactory<Kost, Double>("amount"));	
 		columnCategory.setCellValueFactory(new PropertyValueFactory<Kost, String>("category"));		
 		columnType.setCellValueFactory(new PropertyValueFactory<Kost, SpendType>("spendType"));	
@@ -219,7 +256,7 @@ public class GUIController {
 				}	
 		}
 /*----------------------------------------Menu items-------------------------------------------------------------------------------------*/
-	@FXML
+/*	@FXML
 	public void handleDeleteMenuItem(){		 
 		Kost selectedItem = tableOfKosts.getSelectionModel().getSelectedItem();		
 		tableOfKosts.getItems().remove(selectedItem);
@@ -255,8 +292,8 @@ public class GUIController {
 			//barChart.setLayoutY(10);
 			
 			tableOfKosts.getItems().clear();
-			totalAmountGain = 0;
-			totalAmountKost = 0;
+			//totalAmountGain = 0;
+			//totalAmountKost = 0;
 			updateLabel();
 		} 
 		else alert.close();			
@@ -307,6 +344,11 @@ public class GUIController {
 		else{
 			totalAmountGain=totalAmountGain-currentAmount;  
 		}
+	}
+	
+	public void resetTotalAmount(){
+		totalAmountGain = 0;
+		totalAmountKost = 0;
 	}
 
 		//currently unused

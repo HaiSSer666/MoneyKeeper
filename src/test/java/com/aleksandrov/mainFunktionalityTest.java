@@ -8,9 +8,7 @@ import org.junit.Test;
 import org.testfx.matcher.base.NodeMatchers;
 import com.aleksandrov.model.Kost;
 import com.aleksandrov.model.SpendType;
-
 import javafx.scene.input.KeyCode;
-
 import static org.testfx.api.FxAssert.verifyThat;
 
 public class mainFunktionalityTest extends MoneyKeeperGUITestAbstract{
@@ -30,7 +28,6 @@ public class mainFunktionalityTest extends MoneyKeeperGUITestAbstract{
 		clickOn("#menuEdit_ID").moveTo("#deleteAllItem").clickOn();
 		push(KeyCode.ENTER);
 	}
-	
 	
 	@Test
 	public void cancelButtonFunktionTest() {
