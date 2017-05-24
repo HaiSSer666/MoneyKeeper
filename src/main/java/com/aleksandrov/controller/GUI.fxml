@@ -30,27 +30,6 @@ xmlns:fx="http://javafx.com/fxml/1"
 fx:controller="com.aleksandrov.controller.GUIController">
    <children>
    <fx:include fx:id="menuView" source="MenuView.fxml"/>
-   <!-- <MenuBar layoutY="2.0" prefHeight="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        
-          <menus>
-          <Menu id="menuFile_ID" mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem fx:id="exitItem" mnemonicParsing="false" onAction="#handleExitItem" text="Close" />
-            </items>
-          </Menu>
-          <Menu id="menuEdit_ID" mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem fx:id="deleteItem" mnemonicParsing="false" onAction="#handleDeleteMenuItem" text="Delete" />
-                  <MenuItem fx:id="deleteAllItem" mnemonicParsing="false" onAction="#handleDeleteAllMenuItem" text="Delete all" />
-            </items>
-          </Menu>
-          <Menu id="menuHelp_ID" mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem fx:id="aboutItem" mnemonicParsing="false" onAction="#handleAboutItem" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>-->
       <Button fx:id="addButton" disable="true" layoutX="766.0" layoutY="34.0" mnemonicParsing="false" onAction="#handleAddButton" prefHeight="25.0" prefWidth="70.0" text="Add " />
       <Button fx:id="cancelButton" disable="true" layoutX="766.0" layoutY="71.0" mnemonicParsing="false" onAction="#handleCancelButton" prefHeight="25.0" prefWidth="70.0" text="Cancel" />
       <TextField fx:id="textFieldSum" layoutX="17.0" layoutY="71.0" prefHeight="25.0" prefWidth="106.0" AnchorPane.leftAnchor="14.0">
