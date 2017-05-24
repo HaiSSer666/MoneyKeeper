@@ -78,16 +78,6 @@ public class GUIController {
 	Button addButton;
 	@FXML
 	Button cancelButton;
-
-	//menu items
-	/*@FXML
-	MenuItem aboutItem;
-	@FXML
-	MenuItem exitItem;
-	@FXML
-	MenuItem deleteItem;
-	@FXML
-	MenuItem deleteAllItem;*/
 	
 	//charts and axis
 	@FXML
@@ -255,60 +245,6 @@ public class GUIController {
 			outputWindow.showAndWait();
 				}	
 		}
-/*----------------------------------------Menu items-------------------------------------------------------------------------------------*/
-/*	@FXML
-	public void handleDeleteMenuItem(){		 
-		Kost selectedItem = tableOfKosts.getSelectionModel().getSelectedItem();		
-		tableOfKosts.getItems().remove(selectedItem);
-		evaluateTotalAmount(selectedItem);
-		updateLabel();		
-		updateBarChartData(selectedItem);
-		
-		//String updateName = addEuroSign(selectedItem.getAmount(), selectedItem.getPurpose()); //selectedItem.getCategory() -> currentName if want to use addEuroSign
-		for (Data d : pieChartData)
-		{
-			if (d.getName().equals(selectedItem.getCategory())) { //category -> updateName if want to use addEuroSign
-				d.setPieValue(d.getPieValue()-selectedItem.getAmount());
-				pieChartData.removeIf(x -> x.getPieValue()==0);
-				return;
-			}
-		}
-	}
-
-	@FXML
-	public void handleDeleteAllMenuItem(){
-		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Confirmation Dialog");
-		alert.setHeaderText("Look, a Confirmation Dialog");
-		alert.setContentText("Are you ok with this?");
-
-		Optional<ButtonType> result = alert.showAndWait();
-		if (result.get() == ButtonType.OK){
-			pieChartData.clear();
-			
-			seriesTotalKosts.getData().clear();
-			seriesTotalGains.getData().clear();
-			seriesTotalDifference.getData().clear();
-			//barChart.setLayoutY(10);
-			
-			tableOfKosts.getItems().clear();
-			//totalAmountGain = 0;
-			//totalAmountKost = 0;
-			updateLabel();
-		} 
-		else alert.close();			
-	}
-	
-	@FXML
-	public void handleAboutItem(){
-		Alert infoWindow = new Alert(AlertType.INFORMATION, "Version 1.0.0, Authors Don Okunitto & Don Voronitto");
-		infoWindow.showAndWait();
-	}
-
-	@FXML
-	public void handleExitItem(){
-		main.primaryStage.close();
-	}
 /*-----------------------------Charts updaters----------------------------------------------------------------------------------------*/	
 	public void updatePieChartData(String category, double sum){
 		//String updateName = addEuroSign(sum, purpose); ;
