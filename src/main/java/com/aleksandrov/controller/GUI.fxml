@@ -7,15 +7,10 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
@@ -24,12 +19,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="mainApp_ID" prefHeight="710.0" prefWidth="1040.0" 
-xmlns="http://javafx.com/javafx/8.0.111" 
-xmlns:fx="http://javafx.com/fxml/1" 
-fx:controller="com.aleksandrov.controller.GUIController">
+<AnchorPane id="mainApp_ID" prefHeight="710.0" prefWidth="1040.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aleksandrov.controller.GUIController">
    <children>
-   <fx:include fx:id="menuView" source="MenuView.fxml"/>
+   <fx:include fx:id="menuView" source="MenuView.fxml" />
       <Button fx:id="addButton" disable="true" layoutX="766.0" layoutY="34.0" mnemonicParsing="false" onAction="#handleAddButton" prefHeight="25.0" prefWidth="70.0" text="Add " />
       <Button fx:id="cancelButton" disable="true" layoutX="766.0" layoutY="71.0" mnemonicParsing="false" onAction="#handleCancelButton" prefHeight="25.0" prefWidth="70.0" text="Cancel" />
       <TextField fx:id="textFieldSum" layoutX="17.0" layoutY="71.0" prefHeight="25.0" prefWidth="106.0" AnchorPane.leftAnchor="14.0">
@@ -58,15 +50,7 @@ fx:controller="com.aleksandrov.controller.GUIController">
         <tabs>
           <Tab id="tableTab" text="Table">
                <content>
-                  <TableView fx:id="tableOfKosts" prefHeight="550.0" prefWidth="580.0">
-                    <columns>
-                      <TableColumn fx:id="columnAmount" prefWidth="98.0" resizable="false" text="Sum" />
-                      <TableColumn fx:id="columnCategory" prefWidth="123.0" resizable="false" text="Category" />
-                        <TableColumn fx:id="columnType" prefWidth="78.0" resizable="false" text="Type" />
-                        <TableColumn fx:id="columnDate" prefWidth="186.0" resizable="false" text="Date" />
-                        <TableColumn fx:id="columnComment" prefWidth="365.0" resizable="false" text="Comment" />
-                    </columns>
-                  </TableView>
+               <fx:include fx:id="kostsTableView" source="KostsTableView.fxml" />
                </content></Tab>
           <Tab id="pieChartTab" text="Pie Chart">
                <content>

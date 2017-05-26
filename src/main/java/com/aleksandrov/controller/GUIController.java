@@ -4,11 +4,8 @@ package com.aleksandrov.controller;
  * Author Oleksii A.
  */
 import java.text.DateFormatSymbols;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Locale;
-import java.util.Optional;
 import com.aleksandrov.Main;
 import com.aleksandrov.model.Kost;
 import com.aleksandrov.model.SpendType;
@@ -27,21 +24,19 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 //import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 
 public class GUIController {	
 	//links to sub controllers
 	@FXML
 	public MenuViewController menuViewController;
+	@FXML
+	public KostsTableViewController kostsTableViewController;
 	
 	//link to main app
 	public Main main;
@@ -61,7 +56,6 @@ public class GUIController {
 	//text fields
 	@FXML
 	TextField textFieldSum;
-
 	@FXML
 	TextField textFieldCategory;
 	@FXML
@@ -95,29 +89,14 @@ public class GUIController {
 
 	//lists
 	private ObservableList<String> monthNames = FXCollections.observableArrayList();	
-	private ObservableList<Kost> kostTableData = FXCollections.observableArrayList();
 	private ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
-	ArrayList<Kost> listOfKosts = new ArrayList<>();
-	ArrayList<Kost> listOfGains = new ArrayList<>();
+	//ArrayList<Kost> listOfKosts = new ArrayList<>();
+	//ArrayList<Kost> listOfGains = new ArrayList<>();
 
-	//table columns
-	@FXML
-	private TableView<Kost> tableOfKosts;
-	
+	//костыль
 	public TableView<Kost> getTableOfKosts() {
-		return tableOfKosts;
+		return kostsTableViewController.tableOfKosts;
 	}
-
-	@FXML
-	TableColumn<Kost, Double> columnAmount;
-	@FXML
-	TableColumn<Kost, String> columnCategory;
-	@FXML
-	TableColumn<Kost, SpendType> columnType;
-	@FXML
-	TableColumn<Kost, Date> columnDate; //LocalDate -> Date
-	@FXML
-	TableColumn<Kost, String> columnComment;
 	
 	/*--------------------------------------getters for sub controllers-----------------------------------------------------------------*/	
 	public double getTotalAmountKost() {
@@ -153,13 +132,7 @@ public class GUIController {
 	@FXML
 	private void initialize() {	
 		menuViewController.setGuiController(this);
-		
-		columnAmount.setCellValueFactory(new PropertyValueFactory<Kost, Double>("amount"));	
-		columnCategory.setCellValueFactory(new PropertyValueFactory<Kost, String>("category"));		
-		columnType.setCellValueFactory(new PropertyValueFactory<Kost, SpendType>("spendType"));	
-		columnDate.setCellValueFactory(new PropertyValueFactory<Kost, Date>("date"));	//LocalDate -> Date, dateOfPurchaseIncome -> date
-		columnComment.setCellValueFactory(new PropertyValueFactory<Kost, String>("comment"));
-		tableOfKosts.setItems(kostTableData);
+		kostsTableViewController.setGuiController(this);
 
 		pieChart.setData(pieChartData);
 		pieChart.setLegendVisible(false);
@@ -180,10 +153,6 @@ public class GUIController {
 		//conditions
 		enableCancelButton();
 		enableAddButton();
-		
-		
-		//test
-		
 	}
 	
 	public void setMainApp(Main mainApp) {
@@ -206,7 +175,7 @@ public class GUIController {
 
 				if(radioKost.isSelected()){
 					kost = new Kost(currentAmount, currentCategory, SpendType.KOST);
-					listOfKosts.add(kost);
+					//listOfKosts.add(kost);
 					totalAmountKost+=currentAmount;
 					updatePieChartData(kost.getCategory(), kost.getAmount());
 
@@ -221,7 +190,7 @@ public class GUIController {
 				}  
 				else {
 					kost = new Kost(currentAmount, currentCategory, SpendType.GAIN);
-					listOfGains.add(kost);
+					//listOfGains.add(kost);
 					totalAmountGain+=currentAmount;
 
 					//костыль
@@ -231,7 +200,7 @@ public class GUIController {
 				}
 				
 				kost.setComment(textAreaComment.getText());
-				kostTableData.add(kost);
+				kostsTableViewController.kostTableData.add(kost);
 				updateLabel();
 				handleCancelButton();	
 				

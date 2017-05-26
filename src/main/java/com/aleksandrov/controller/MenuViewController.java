@@ -21,7 +21,8 @@ import javafx.scene.control.Alert.AlertType;
 
 public class MenuViewController {
 	public Main mainApp;
-	public GUIController guiController;
+	@FXML public GUIController guiController;
+	@FXML public KostsTableViewController kostsTableViewController;
 	
 	@FXML
 	MenuItem aboutItem;
@@ -45,7 +46,11 @@ public class MenuViewController {
 	@FXML
 	public void handleDeleteMenuItem(){		 
 		ObservableList<PieChart.Data> pieChartData = guiController.getPieChartData();	
-		TableView<Kost> tableOfKosts = guiController.getTableOfKosts();
+		//TableView<Kost> tableOfKosts = kostsTableViewController.tableOfKosts; //1
+		//TableView<Kost> tableOfKosts = kostsTableViewController.getTableOfKosts(); //2
+		
+		TableView<Kost> tableOfKosts = guiController.kostsTableViewController.tableOfKosts;//it works WTF???
+		//TableView<Kost> tableOfKosts = guiController.getTableOfKosts();//it works
 		Kost selectedItem = tableOfKosts.getSelectionModel().getSelectedItem();		
 		if(selectedItem==null){
 			Alert infoWindow = new Alert(AlertType.INFORMATION, "Please choose item at first!");
@@ -71,28 +76,37 @@ public class MenuViewController {
 
 	@FXML
 	public void handleDeleteAllMenuItem(){
-		TableView<Kost> tableOfKosts = guiController.getTableOfKosts();
+		//TableView<Kost> tableOfKosts = kostsTableViewController.tableOfKosts; //1
+		//TableView<Kost> tableOfKosts = kostsTableViewController.getTableOfKosts(); //2
+		
+		
+		TableView<Kost> tableOfKosts = guiController.getTableOfKosts();//it works
 		XYChart.Series<String, Double> seriesTotalKosts = guiController.getSeriesTotalKosts();
 		XYChart.Series<String, Double> seriesTotalGains = guiController.getSeriesTotalGains();
 		XYChart.Series<String, Double> seriesTotalDifference = guiController.getSeriesTotalDifference();
 		ObservableList<PieChart.Data> pieChartData = guiController.getPieChartData();
 
-		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Confirmation Dialog");
-		alert.setHeaderText("Look, a Confirmation Dialog");
-		alert.setContentText("Are you ok with this?");
+		if(tableOfKosts.getItems().size()>=1){
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Confirmation Dialog");
+			alert.setHeaderText("Look, a Confirmation Dialog");
+			alert.setContentText("Are you ok with this?");
 
-		Optional<ButtonType> result = alert.showAndWait();
-		if (result.get() == ButtonType.OK){
-			pieChartData.clear();
-			seriesTotalKosts.getData().clear();
-			seriesTotalGains.getData().clear();
-			seriesTotalDifference.getData().clear();
-			tableOfKosts.getItems().clear();
-			guiController.resetTotalAmount();
-			guiController.updateLabel();
-		} 
-		else alert.close();			
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == ButtonType.OK){
+				pieChartData.clear();
+				seriesTotalKosts.getData().clear();
+				seriesTotalGains.getData().clear();
+				seriesTotalDifference.getData().clear();
+				tableOfKosts.getItems().clear();
+				guiController.resetTotalAmount();
+				guiController.updateLabel();
+			} 
+			else alert.close();	
+		}
+		else{
+			showEmptyTableInfo();
+		}
 	}
 
 	@FXML
@@ -104,5 +118,10 @@ public class MenuViewController {
 	@FXML
 	public void handleExitItem(){
 		mainApp.primaryStage.close();
+	}
+	
+	public void showEmptyTableInfo(){
+		Alert infoWindow = new Alert(AlertType.INFORMATION, "Table is empty!");
+		infoWindow.showAndWait();
 	}
 }
