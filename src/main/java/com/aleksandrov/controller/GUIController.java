@@ -90,13 +90,6 @@ public class GUIController {
 	//lists
 	private ObservableList<String> monthNames = FXCollections.observableArrayList();	
 	private ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
-	//ArrayList<Kost> listOfKosts = new ArrayList<>();
-	//ArrayList<Kost> listOfGains = new ArrayList<>();
-
-	//костыль
-	public TableView<Kost> getTableOfKosts() {
-		return kostsTableViewController.tableOfKosts;
-	}
 	
 	/*--------------------------------------getters for sub controllers-----------------------------------------------------------------*/	
 	public double getTotalAmountKost() {
@@ -158,7 +151,7 @@ public class GUIController {
 	public void setMainApp(Main mainApp) {
 		this.main = mainApp;
 	}
-	/*--------------------------------------------Add button-----------------------------------------------------------------------------*/
+	/*--------------------------------------------Buttons-----------------------------------------------------------------------------*/
 	@FXML
 	public void handleAddButton(){
 		/*if(Integer.parseInt(textFieldSum.getText())<0){
@@ -214,6 +207,14 @@ public class GUIController {
 			outputWindow.showAndWait();
 				}	
 		}
+	
+	@FXML
+	public void handleCancelButton(){
+		textFieldCategory.clear();
+		textFieldSum.clear();
+		textAreaComment.clear();
+		radioKost.setSelected(true);
+	}
 /*-----------------------------Charts updaters----------------------------------------------------------------------------------------*/	
 	public void updatePieChartData(String category, double sum){
 		//String updateName = addEuroSign(sum, purpose); ;
@@ -252,15 +253,10 @@ public class GUIController {
 	}
 	
 	public void resetTotalAmount(){
-		totalAmountGain = 0;
-		totalAmountKost = 0;
+		totalAmountGain = 0.0;
+		totalAmountKost = 0.0;
 	}
-
-		//currently unused
-		public String addEuroSign(double amount, String name){
-		return name + " " + amount + " И";
-	}
-/*----------------------------Buttons events------------------------------------------------------------------------------------*/
+/*----------------------------Buttons enable rules -------------------------------------------------------------------------------*/
 	public void enableAddButton(){
 		BooleanBinding bb = new BooleanBinding() {			
 			{
@@ -295,13 +291,5 @@ public class GUIController {
 			}
 		};
 		cancelButton.disableProperty().bind(bb);
-	}
-	
-	@FXML
-	public void handleCancelButton(){
-		textFieldCategory.clear();
-		textFieldSum.clear();
-		textAreaComment.clear();
-		radioKost.setSelected(true);
 	}
 }

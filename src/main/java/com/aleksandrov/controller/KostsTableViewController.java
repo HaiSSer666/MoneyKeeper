@@ -34,9 +34,9 @@ public class KostsTableViewController {
 	}
 	
 	//2
-	/*public TableView<Kost> getTableOfKosts() {
+	public TableView<Kost> getTableOfKosts() {
 		return tableOfKosts;
-	}*/
+	}
 	
 	@FXML
 	private void initialize() {		

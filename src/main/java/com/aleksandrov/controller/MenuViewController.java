@@ -23,6 +23,7 @@ public class MenuViewController {
 	public Main mainApp;
 	@FXML public GUIController guiController;
 	@FXML public KostsTableViewController kostsTableViewController;
+	//UpdateLabelsUtils updateLabelsUtils;
 	
 	@FXML
 	MenuItem aboutItem;
@@ -46,11 +47,8 @@ public class MenuViewController {
 	@FXML
 	public void handleDeleteMenuItem(){		 
 		ObservableList<PieChart.Data> pieChartData = guiController.getPieChartData();	
-		//TableView<Kost> tableOfKosts = kostsTableViewController.tableOfKosts; //1
-		//TableView<Kost> tableOfKosts = kostsTableViewController.getTableOfKosts(); //2
-		
-		TableView<Kost> tableOfKosts = guiController.kostsTableViewController.tableOfKosts;//it works WTF???
-		//TableView<Kost> tableOfKosts = guiController.getTableOfKosts();//it works
+		TableView<Kost> tableOfKosts = guiController.kostsTableViewController.tableOfKosts;
+
 		Kost selectedItem = tableOfKosts.getSelectionModel().getSelectedItem();		
 		if(selectedItem==null){
 			Alert infoWindow = new Alert(AlertType.INFORMATION, "Please choose item at first!");
@@ -76,11 +74,8 @@ public class MenuViewController {
 
 	@FXML
 	public void handleDeleteAllMenuItem(){
-		//TableView<Kost> tableOfKosts = kostsTableViewController.tableOfKosts; //1
-		//TableView<Kost> tableOfKosts = kostsTableViewController.getTableOfKosts(); //2
-		
-		
-		TableView<Kost> tableOfKosts = guiController.getTableOfKosts();//it works
+		TableView<Kost> tableOfKosts = guiController.kostsTableViewController.tableOfKosts;
+
 		XYChart.Series<String, Double> seriesTotalKosts = guiController.getSeriesTotalKosts();
 		XYChart.Series<String, Double> seriesTotalGains = guiController.getSeriesTotalGains();
 		XYChart.Series<String, Double> seriesTotalDifference = guiController.getSeriesTotalDifference();
