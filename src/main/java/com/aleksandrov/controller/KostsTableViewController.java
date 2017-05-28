@@ -24,7 +24,7 @@ public class KostsTableViewController {
 	@FXML
 	TableColumn<Kost, SpendType> columnType;
 	@FXML
-	TableColumn<Kost, Date> columnDate; //LocalDate -> Date
+	TableColumn<Kost, Date> columnDate;
 	@FXML
 	TableColumn<Kost, String> columnComment;
 	
@@ -45,7 +45,6 @@ public class KostsTableViewController {
 		columnType.setCellValueFactory(new PropertyValueFactory<Kost, SpendType>("spendType"));	
 		columnDate.setCellValueFactory(new PropertyValueFactory<Kost, Date>("date"));	//LocalDate -> Date, dateOfPurchaseIncome -> date
 		columnComment.setCellValueFactory(new PropertyValueFactory<Kost, String>("comment"));
-		//tableOfKosts.setItems(guiController.getKostTableData());
 		tableOfKosts.setItems(kostTableData);	
 	}
 }

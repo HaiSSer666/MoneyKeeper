@@ -23,7 +23,6 @@ public class MenuViewController {
 	public Main mainApp;
 	@FXML public GUIController guiController;
 	@FXML public KostsTableViewController kostsTableViewController;
-	//UpdateLabelsUtils updateLabelsUtils;
 	
 	@FXML
 	MenuItem aboutItem;

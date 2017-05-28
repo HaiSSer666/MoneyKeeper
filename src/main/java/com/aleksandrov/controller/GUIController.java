@@ -3,6 +3,7 @@ package com.aleksandrov.controller;
  * main GUI controller
  * Author Oleksii A.
  */
+
 import java.text.DateFormatSymbols;
 import java.util.Arrays;
 import java.util.Locale;
@@ -14,12 +15,12 @@ import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.geometry.Side;
+//import javafx.geometry.Side;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
-import javafx.scene.chart.PieChart.Data;
+//import javafx.scene.chart.PieChart.Data;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -27,7 +28,6 @@ import javafx.scene.control.Button;
 //import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
@@ -37,6 +37,8 @@ public class GUIController {
 	public MenuViewController menuViewController;
 	@FXML
 	public KostsTableViewController kostsTableViewController;
+	@FXML
+	public KostsPieChartController kostsPieChartController;
 	
 	//link to main app
 	public Main main;
@@ -74,8 +76,8 @@ public class GUIController {
 	Button cancelButton;
 	
 	//charts and axis
-	@FXML
-	private PieChart pieChart;	
+	/*@FXML
+	private PieChart pieChart;	*/
 	@FXML
 	private BarChart<String, Double> barChart;
 	@FXML
@@ -89,7 +91,7 @@ public class GUIController {
 
 	//lists
 	private ObservableList<String> monthNames = FXCollections.observableArrayList();	
-	private ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
+	//private ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
 	
 	/*--------------------------------------getters for sub controllers-----------------------------------------------------------------*/	
 	public double getTotalAmountKost() {
@@ -112,8 +114,9 @@ public class GUIController {
 		return seriesTotalDifference;
 	}
 
+	//temporal solution
 	public ObservableList<PieChart.Data> getPieChartData() {
-		return pieChartData;
+		return kostsPieChartController.getPieChartData();
 	}
 	
 	/*--------------------------------------Start-up methods----------------------------------------------------------------------------*/		
@@ -126,11 +129,12 @@ public class GUIController {
 	private void initialize() {	
 		menuViewController.setGuiController(this);
 		kostsTableViewController.setGuiController(this);
+		kostsPieChartController.setGuiController(this);
 
-		pieChart.setData(pieChartData);
+		/*pieChart.setData(pieChartData);
 		pieChart.setLegendVisible(false);
 		pieChart.setTitle("Distribution of kosts");		
-		pieChart.setLegendSide(Side.BOTTOM);
+		pieChart.setLegendSide(Side.BOTTOM);*/
 
 		barChart.setTitle("Chart of total balance");
 		barChart.getData().addAll(seriesTotalKosts, seriesTotalGains, seriesTotalDifference);
@@ -170,7 +174,7 @@ public class GUIController {
 					kost = new Kost(currentAmount, currentCategory, SpendType.KOST);
 					//listOfKosts.add(kost);
 					totalAmountKost+=currentAmount;
-					updatePieChartData(kost.getCategory(), kost.getAmount());
+					kostsPieChartController.updatePieChartData(kost.getCategory(), kost.getAmount());
 
 					//adds euro sign to label of pie chart sector (add addEuroSign)
 					//Data pieChartSection = new PieChart.Data (kost.getCategory(), kost.getAmount()); 
@@ -216,7 +220,7 @@ public class GUIController {
 		radioKost.setSelected(true);
 	}
 /*-----------------------------Charts updaters----------------------------------------------------------------------------------------*/	
-	public void updatePieChartData(String category, double sum){
+	/*public void updatePieChartData(String category, double sum){
 		//String updateName = addEuroSign(sum, purpose); ;
 		for (Data d : pieChartData)
 		{
@@ -226,7 +230,7 @@ public class GUIController {
 			}
 		}
 		pieChartData.add(new PieChart.Data(category, sum));
-	}
+	}*/
 
 	public void updateBarChartData(Kost kost){
 		@SuppressWarnings("deprecation")

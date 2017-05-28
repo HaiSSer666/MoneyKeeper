@@ -19,7 +19,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="mainApp_ID" prefHeight="710.0" prefWidth="1040.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aleksandrov.controller.GUIController">
+<AnchorPane id="mainApp_ID" prefHeight="710.0" prefWidth="1040.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" 
+fx:controller="com.aleksandrov.controller.GUIController">
    <children>
    <fx:include fx:id="menuView" source="MenuView.fxml" />
       <Button fx:id="addButton" disable="true" layoutX="766.0" layoutY="34.0" mnemonicParsing="false" onAction="#handleAddButton" prefHeight="25.0" prefWidth="70.0" text="Add " />
@@ -50,11 +51,12 @@
         <tabs>
           <Tab id="tableTab" text="Table">
                <content>
-               <fx:include fx:id="kostsTableView" source="KostsTableView.fxml" />
+               		<fx:include fx:id="kostsTableView" source="KostsTableView.fxml" />
                </content></Tab>
           <Tab id="pieChartTab" text="Pie Chart">
                <content>
-                  <PieChart id="pieChart_ID" fx:id="pieChart" />
+                  	<fx:include fx:id="kostsPieChartView" source="KostsPieChartView.fxml" />
+                  	<!--<PieChart id="pieChart_ID" fx:id="pieChart" />-->
                </content></Tab>
           <Tab id="barChartTab" text="Bar Chart">
                <content>
