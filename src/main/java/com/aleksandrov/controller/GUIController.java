@@ -75,9 +75,6 @@ public class GUIController {
 	@FXML
 	Button cancelButton;
 	
-	//charts and axis
-	/*@FXML
-	private PieChart pieChart;	*/
 	@FXML
 	private BarChart<String, Double> barChart;
 	@FXML
@@ -91,7 +88,6 @@ public class GUIController {
 
 	//lists
 	private ObservableList<String> monthNames = FXCollections.observableArrayList();	
-	//private ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
 	
 	/*--------------------------------------getters for sub controllers-----------------------------------------------------------------*/	
 	public double getTotalAmountKost() {
@@ -130,11 +126,6 @@ public class GUIController {
 		menuViewController.setGuiController(this);
 		kostsTableViewController.setGuiController(this);
 		kostsPieChartController.setGuiController(this);
-
-		/*pieChart.setData(pieChartData);
-		pieChart.setLegendVisible(false);
-		pieChart.setTitle("Distribution of kosts");		
-		pieChart.setLegendSide(Side.BOTTOM);*/
 
 		barChart.setTitle("Chart of total balance");
 		barChart.getData().addAll(seriesTotalKosts, seriesTotalGains, seriesTotalDifference);
@@ -220,18 +211,6 @@ public class GUIController {
 		radioKost.setSelected(true);
 	}
 /*-----------------------------Charts updaters----------------------------------------------------------------------------------------*/	
-	/*public void updatePieChartData(String category, double sum){
-		//String updateName = addEuroSign(sum, purpose); ;
-		for (Data d : pieChartData)
-		{
-			if (d.getName().equals(category)) { //category -> updateName if want to use addEuroSign
-				d.setPieValue(d.getPieValue()+sum);
-				return;
-			}
-		}
-		pieChartData.add(new PieChart.Data(category, sum));
-	}*/
-
 	public void updateBarChartData(Kost kost){
 		@SuppressWarnings("deprecation")
 		String currentMonth = monthNames.get(kost.getDate().getMonth());

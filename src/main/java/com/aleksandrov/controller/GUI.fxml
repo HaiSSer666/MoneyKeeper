@@ -55,8 +55,7 @@ fx:controller="com.aleksandrov.controller.GUIController">
                </content></Tab>
           <Tab id="pieChartTab" text="Pie Chart">
                <content>
-                  	<fx:include fx:id="kostsPieChartView" source="KostsPieChartView.fxml" />
-                  	<!--<PieChart id="pieChart_ID" fx:id="pieChart" />-->
+                  	<fx:include fx:id="kostsPieChart" source="KostsPieChart.fxml" />
                </content></Tab>
           <Tab id="barChartTab" text="Bar Chart">
                <content>
