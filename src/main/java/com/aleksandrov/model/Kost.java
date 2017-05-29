@@ -4,8 +4,6 @@ import java.time.LocalDate;
 import java.util.Date;
 
 public class Kost {
-	//fields
-	//test****
 	public double amount;
 	public String category;
 	SpendType spendType;

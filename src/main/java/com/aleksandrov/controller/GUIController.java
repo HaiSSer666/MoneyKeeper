@@ -4,23 +4,14 @@ package com.aleksandrov.controller;
  * Author Oleksii A.
  */
 
-import java.text.DateFormatSymbols;
-import java.util.Arrays;
-import java.util.Locale;
 import com.aleksandrov.Main;
 import com.aleksandrov.model.Kost;
 import com.aleksandrov.model.SpendType;
 //import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-//import javafx.geometry.Side;
-import javafx.scene.chart.BarChart;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
-//import javafx.scene.chart.PieChart.Data;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -39,6 +30,8 @@ public class GUIController {
 	public KostsTableViewController kostsTableViewController;
 	@FXML
 	public KostsPieChartController kostsPieChartController;
+	@FXML
+	public KostsBarChartController kostsBarChartController;
 	
 	//link to main app
 	public Main main;
@@ -75,21 +68,8 @@ public class GUIController {
 	@FXML
 	Button cancelButton;
 	
-	@FXML
-	private BarChart<String, Double> barChart;
-	@FXML
-	private CategoryAxis xAxis;
-	@FXML
-	private NumberAxis yAxis;
-
-	XYChart.Series<String, Double> seriesTotalKosts = new XYChart.Series<>();
-	XYChart.Series<String, Double> seriesTotalGains = new XYChart.Series<>();
-	XYChart.Series<String, Double> seriesTotalDifference = new XYChart.Series<>();
-
-	//lists
-	private ObservableList<String> monthNames = FXCollections.observableArrayList();	
-	
 	/*--------------------------------------getters for sub controllers-----------------------------------------------------------------*/	
+	//temporal solution for barChart
 	public double getTotalAmountKost() {
 		return totalAmountKost;
 	}
@@ -99,18 +79,18 @@ public class GUIController {
 	}
 
 	public XYChart.Series<String, Double> getSeriesTotalKosts() {
-		return seriesTotalKosts;
+		return kostsBarChartController.getSeriesTotalKosts();
 	}
 
 	public XYChart.Series<String, Double> getSeriesTotalGains() {
-		return seriesTotalGains;
+		return kostsBarChartController.getSeriesTotalGains();
 	}
 
 	public XYChart.Series<String, Double> getSeriesTotalDifference() {
-		return seriesTotalDifference;
+		return kostsBarChartController.getSeriesTotalDifference();
 	}
 
-	//temporal solution
+	//temporal solution for pieChart
 	public ObservableList<PieChart.Data> getPieChartData() {
 		return kostsPieChartController.getPieChartData();
 	}
@@ -119,24 +99,12 @@ public class GUIController {
 	public GUIController() {
 	}
 
-	/*is used after fxml-file loading*/
-	@SuppressWarnings("unchecked")
 	@FXML
 	private void initialize() {	
 		menuViewController.setGuiController(this);
 		kostsTableViewController.setGuiController(this);
 		kostsPieChartController.setGuiController(this);
-
-		barChart.setTitle("Chart of total balance");
-		barChart.getData().addAll(seriesTotalKosts, seriesTotalGains, seriesTotalDifference);
-		String[] months = DateFormatSymbols.getInstance(Locale.ENGLISH).getMonths();
-		monthNames.addAll(Arrays.asList(months));
-		xAxis.setCategories(monthNames);     
-
-		//отображает только тотал кост/гейн, а не по месяцам
-		seriesTotalKosts.setName("Total kosts");
-		seriesTotalGains.setName("Total gains");;
-		seriesTotalDifference.setName("Difference");;
+		kostsBarChartController.setGuiController(this);
 
 		//conditions
 		enableCancelButton();
@@ -149,13 +117,6 @@ public class GUIController {
 	/*--------------------------------------------Buttons-----------------------------------------------------------------------------*/
 	@FXML
 	public void handleAddButton(){
-		/*if(Integer.parseInt(textFieldSum.getText())<0){
-			Alert outputWindow = new Alert(AlertType.WARNING, "Sum must be greater than 0! Please correct your data.");
-			outputWindow.showAndWait();
-		}
-		else{
-			
-		}*/
 			try{			
 				double currentAmount = Double.parseDouble(textFieldSum.getText());
 				String currentCategory = textFieldCategory.getText();
@@ -163,7 +124,6 @@ public class GUIController {
 
 				if(radioKost.isSelected()){
 					kost = new Kost(currentAmount, currentCategory, SpendType.KOST);
-					//listOfKosts.add(kost);
 					totalAmountKost+=currentAmount;
 					kostsPieChartController.updatePieChartData(kost.getCategory(), kost.getAmount());
 
@@ -173,18 +133,17 @@ public class GUIController {
 
 					//костыль
 					@SuppressWarnings("deprecation")
-					String currentMonth = monthNames.get(kost.getDate().getMonth());
-					seriesTotalKosts.getData().add(new XYChart.Data<String, Double>(currentMonth, totalAmountKost));			
+					String currentMonth = kostsBarChartController.getMonthNames().get(kost.getDate().getMonth());//changes
+					kostsBarChartController.getSeriesTotalKosts().getData().add(new XYChart.Data<String, Double>(currentMonth, totalAmountKost));//changes			
 				}  
 				else {
 					kost = new Kost(currentAmount, currentCategory, SpendType.GAIN);
-					//listOfGains.add(kost);
 					totalAmountGain+=currentAmount;
 
 					//костыль
 					@SuppressWarnings("deprecation")
-					String currentMonth = monthNames.get(kost.getDate().getMonth());
-					seriesTotalGains.getData().add(new XYChart.Data<String, Double>(currentMonth, totalAmountGain));
+					String currentMonth = kostsBarChartController.getMonthNames().get(kost.getDate().getMonth());//changes
+					kostsBarChartController.getSeriesTotalGains().getData().add(new XYChart.Data<String, Double>(currentMonth, totalAmountGain));//changes
 				}
 				
 				kost.setComment(textAreaComment.getText());
@@ -193,8 +152,8 @@ public class GUIController {
 				handleCancelButton();	
 				
 				@SuppressWarnings("deprecation")
-				String currentMonth = monthNames.get(kost.getDate().getMonth());
-				seriesTotalDifference.getData().add(new javafx.scene.chart.XYChart.Data<String, Double>(currentMonth, totalAmountGain-totalAmountKost));
+				String currentMonth = kostsBarChartController.getMonthNames().get(kost.getDate().getMonth());//changes
+				kostsBarChartController.getSeriesTotalDifference().getData().add(new javafx.scene.chart.XYChart.Data<String, Double>(currentMonth, totalAmountGain-totalAmountKost));//changes
 		}
 
 		catch (NumberFormatException e1){
@@ -210,14 +169,7 @@ public class GUIController {
 		textAreaComment.clear();
 		radioKost.setSelected(true);
 	}
-/*-----------------------------Charts updaters----------------------------------------------------------------------------------------*/	
-	public void updateBarChartData(Kost kost){
-		@SuppressWarnings("deprecation")
-		String currentMonth = monthNames.get(kost.getDate().getMonth());
-		seriesTotalKosts.getData().add(new XYChart.Data<String, Double>(currentMonth, totalAmountKost));
-		seriesTotalGains.getData().add(new XYChart.Data<String, Double>(currentMonth, totalAmountGain));
-		seriesTotalDifference.getData().add(new javafx.scene.chart.XYChart.Data<String, Double>(currentMonth, totalAmountGain-totalAmountKost));
-	}
+
 /*----------------------------------------Utils-----------------------------------------------------------------------------------*/	
 	public void updateLabel(){
 		labelTotalAmountGain.setText(Double.toString(totalAmountGain));

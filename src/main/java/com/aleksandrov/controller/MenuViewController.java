@@ -57,7 +57,7 @@ public class MenuViewController {
 			tableOfKosts.getItems().remove(selectedItem);
 			guiController.evaluateTotalAmount(selectedItem);
 			guiController.updateLabel();		
-			guiController.updateBarChartData(selectedItem);
+			guiController.kostsBarChartController.updateBarChartData(selectedItem);
 
 			//String updateName = addEuroSign(selectedItem.getAmount(), selectedItem.getPurpose()); //selectedItem.getCategory() -> currentName if want to use addEuroSign
 			for (Data d : pieChartData)
