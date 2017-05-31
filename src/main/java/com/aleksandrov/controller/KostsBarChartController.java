@@ -31,6 +31,10 @@ public class KostsBarChartController {
 	//lists
 	private ObservableList<String> monthNames = FXCollections.observableArrayList();
 
+	public NumberAxis getyAxis() {
+		return yAxis;
+	}
+	
 	public XYChart.Series<String, Double> getSeriesTotalKosts() {
 		return seriesTotalKosts;
 	}
@@ -67,11 +71,13 @@ public class KostsBarChartController {
 		seriesTotalDifference.setName("Difference");;
 	}
 
+	@SuppressWarnings("deprecation")
 	public void updateBarChartData(Kost kost){
-		@SuppressWarnings("deprecation")
+		double totalAmountKost = guiController.getTotalAmountKost();//change
+		double totalAmountGain = guiController.getTotalAmountGain();//change
 		String currentMonth = monthNames.get(kost.getDate().getMonth());
-		seriesTotalKosts.getData().add(new XYChart.Data<String, Double>(currentMonth, guiController.totalAmountKost));
-		seriesTotalGains.getData().add(new XYChart.Data<String, Double>(currentMonth, guiController.totalAmountGain));
-		seriesTotalDifference.getData().add(new javafx.scene.chart.XYChart.Data<String, Double>(currentMonth, guiController.totalAmountGain-guiController.totalAmountKost));
+		seriesTotalKosts.getData().add(new XYChart.Data<String, Double>(currentMonth, totalAmountKost));
+		seriesTotalGains.getData().add(new XYChart.Data<String, Double>(currentMonth, totalAmountGain));
+		seriesTotalDifference.getData().add(new javafx.scene.chart.XYChart.Data<String, Double>(currentMonth, totalAmountGain-totalAmountKost));
 	}
 }

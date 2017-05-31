@@ -56,9 +56,9 @@ public class MenuViewController {
 		else{
 			tableOfKosts.getItems().remove(selectedItem);
 			guiController.evaluateTotalAmount(selectedItem);
-			guiController.updateLabel();		
+			guiController.statusBarController.updateLabel(guiController.getTotalAmountKost(), guiController.totalAmountGain);		
 			guiController.kostsBarChartController.updateBarChartData(selectedItem);
-
+						
 			//String updateName = addEuroSign(selectedItem.getAmount(), selectedItem.getPurpose()); //selectedItem.getCategory() -> currentName if want to use addEuroSign
 			for (Data d : pieChartData)
 			{
@@ -68,7 +68,9 @@ public class MenuViewController {
 					return;
 				}
 			}	
-		}		
+		}	
+		
+		//guiController.kostsBarChartController.getyAxis().autosize();
 	}
 
 	@FXML
@@ -94,13 +96,15 @@ public class MenuViewController {
 				seriesTotalDifference.getData().clear();
 				tableOfKosts.getItems().clear();
 				guiController.resetTotalAmount();
-				guiController.updateLabel();
+				guiController.statusBarController.updateLabel(guiController.getTotalAmountKost(), guiController.getTotalAmountGain());
 			} 
 			else alert.close();	
 		}
 		else{
 			showEmptyTableInfo();
 		}
+		
+		//guiController.kostsBarChartController.getyAxis().autosize();
 	}
 
 	@FXML

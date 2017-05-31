@@ -17,7 +17,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 //import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
+//import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -32,6 +32,8 @@ public class GUIController {
 	public KostsPieChartController kostsPieChartController;
 	@FXML
 	public KostsBarChartController kostsBarChartController;
+	@FXML
+	public StatusBarController statusBarController;
 	
 	//link to main app
 	public Main main;
@@ -39,14 +41,6 @@ public class GUIController {
 	//variables
 	public double totalAmountKost;
 	public double totalAmountGain;
-	
-	//labels
-	@FXML
-	Label labelTotalAmountKost;
-	@FXML
-	Label labelTotalAmountGain;
-	@FXML
-	Label labelDifference;
 
 	//text fields
 	@FXML
@@ -69,7 +63,7 @@ public class GUIController {
 	Button cancelButton;
 	
 	/*--------------------------------------getters for sub controllers-----------------------------------------------------------------*/	
-	//temporal solution for barChart
+	//temporal solution for statusBar
 	public double getTotalAmountKost() {
 		return totalAmountKost;
 	}
@@ -77,7 +71,8 @@ public class GUIController {
 	public double getTotalAmountGain() {
 		return totalAmountGain;
 	}
-
+	
+	//temporal solution for barChart
 	public XYChart.Series<String, Double> getSeriesTotalKosts() {
 		return kostsBarChartController.getSeriesTotalKosts();
 	}
@@ -105,7 +100,8 @@ public class GUIController {
 		kostsTableViewController.setGuiController(this);
 		kostsPieChartController.setGuiController(this);
 		kostsBarChartController.setGuiController(this);
-
+		statusBarController.setGuiController(this);
+		
 		//conditions
 		enableCancelButton();
 		enableAddButton();
@@ -125,7 +121,7 @@ public class GUIController {
 				if(radioKost.isSelected()){
 					kost = new Kost(currentAmount, currentCategory, SpendType.KOST);
 					totalAmountKost+=currentAmount;
-					kostsPieChartController.updatePieChartData(kost.getCategory(), kost.getAmount());
+					kostsPieChartController.updatePieChartData(kost.getCategory(), kost.getAmount());//change
 
 					//adds euro sign to label of pie chart sector (add addEuroSign)
 					//Data pieChartSection = new PieChart.Data (kost.getCategory(), kost.getAmount()); 
@@ -148,7 +144,7 @@ public class GUIController {
 				
 				kost.setComment(textAreaComment.getText());
 				kostsTableViewController.kostTableData.add(kost);
-				updateLabel();
+				statusBarController.updateLabel(totalAmountKost, totalAmountGain);
 				handleCancelButton();	
 				
 				@SuppressWarnings("deprecation")
@@ -171,12 +167,6 @@ public class GUIController {
 	}
 
 /*----------------------------------------Utils-----------------------------------------------------------------------------------*/	
-	public void updateLabel(){
-		labelTotalAmountGain.setText(Double.toString(totalAmountGain));
-		labelTotalAmountKost.setText(Double.toString(totalAmountKost));
-		labelDifference.setText(Double.toString(totalAmountGain - totalAmountKost));
-	}
-	
 	public void evaluateTotalAmount(Kost kost){
 		double currentAmount = kost.getAmount();
 		if(kost.getSpendType()==SpendType.KOST){

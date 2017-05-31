@@ -84,54 +84,7 @@
 				</Tab>
 			</tabs>
 		</TabPane>
-		<SplitPane layoutY="687.0" orientation="VERTICAL"
-			prefHeight="31.0" AnchorPane.bottomAnchor="0.0"
-			AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-			<items>
-				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="28.0"
-					prefWidth="580.0">
-					<children>
-						<HBox prefHeight="27.0" prefWidth="828.0">
-							<children>
-								<Label prefHeight="15.0" prefWidth="180.0" text="Total kosts amount = ">
-									<font>
-										<Font size="18.0" />
-									</font>
-								</Label>
-								<Label id="labelKost_ID" fx:id="labelTotalAmountKost"
-									prefHeight="17.0" prefWidth="106.0" text="0.0">
-									<font>
-										<Font size="18.0" />
-									</font>
-								</Label>
-								<Label text="Total gains amount = ">
-									<font>
-										<Font size="18.0" />
-									</font>
-								</Label>
-								<Label id="labelGain_ID" fx:id="labelTotalAmountGain"
-									prefHeight="17.0" prefWidth="106.0" text="0.0">
-									<font>
-										<Font size="18.0" />
-									</font>
-								</Label>
-								<Label text="Difference = ">
-									<font>
-										<Font size="18.0" />
-									</font>
-								</Label>
-								<Label id="labelDifference_ID" fx:id="labelDifference"
-									prefHeight="27.0" prefWidth="106.0" text="0.0">
-									<font>
-										<Font size="18.0" />
-									</font>
-								</Label>
-							</children>
-						</HBox>
-					</children>
-				</AnchorPane>
-			</items>
-		</SplitPane>
+		<fx:include layoutY="687.0" fx:id="statusBar" source="StatusBar.fxml" />
 		<DatePicker fx:id="datePicker" layoutX="852.0" layoutY="71.0"
 			prefHeight="25.0" prefWidth="174.0" showWeekNumbers="true" visible="false" />
 		<Label layoutX="852.0" layoutY="38.0" text="Date of purcahse/income"
