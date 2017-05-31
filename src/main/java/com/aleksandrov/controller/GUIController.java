@@ -3,11 +3,9 @@ package com.aleksandrov.controller;
  * main GUI controller
  * Author Oleksii A.
  */
-
 import com.aleksandrov.Main;
 import com.aleksandrov.model.Kost;
 import com.aleksandrov.model.SpendType;
-//import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -16,8 +14,6 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-//import javafx.scene.control.DatePicker;
-//import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -96,6 +92,7 @@ public class GUIController {
 
 	@FXML
 	private void initialize() {	
+		//loading sub controllers
 		menuViewController.setGuiController(this);
 		kostsTableViewController.setGuiController(this);
 		kostsPieChartController.setGuiController(this);
