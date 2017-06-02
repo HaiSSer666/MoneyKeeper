@@ -30,10 +30,10 @@ public class MainController {
 	public KostsBarChartController kostsBarChartController;
 	@FXML
 	public StatusBarController statusBarController;
-	
+
 	//link to main app
 	public Main main;
-	
+
 	//variables
 	public double totalAmountKost;
 	public double totalAmountGain;
@@ -57,7 +57,7 @@ public class MainController {
 	Button addButton;
 	@FXML
 	Button cancelButton;
-	
+
 	/*--------------------------------------getters-------------------------------------------------------------------------------------*/	
 	public double getTotalAmountKost() {
 		return totalAmountKost;
@@ -78,27 +78,31 @@ public class MainController {
 		kostsPieChartController.setGuiController(this);
 		kostsBarChartController.setGuiController(this);
 		statusBarController.setGuiController(this);
-		
+
 		//conditions
 		enableCancelButton();
 		enableAddButton();
 	}
-	
+
 	public void setMainApp(Main mainApp) {
 		this.main = mainApp;
 	}
 	/*--------------------------------------------Buttons-------------------------------------------------------------------------------*/
 	@FXML
 	public void handleAddButton() {
-			try{			
-				double currentAmount = Double.parseDouble(textFieldSum.getText());
-				String currentCategory = textFieldCategory.getText();
-				Kost kost;
-
+		try{			
+			Kost kost;
+			String currentCategory = textFieldCategory.getText();				
+			double currentAmount = Double.parseDouble(textFieldSum.getText());
+			if (currentAmount<0){
+				Alert outputWindow = new Alert(AlertType.WARNING, "Sum must be positive! Please correct your data.");
+				outputWindow.showAndWait();
+				return;
+			}	else {
 				if(radioKost.isSelected()){
 					kost = new Kost(currentAmount, currentCategory, SpendType.KOST);
 					totalAmountKost+=currentAmount;
-					kostsPieChartController.updatePieChartData(kost.getCategory(), kost.getAmount());//change
+					kostsPieChartController.updatePieChartData(kost.getCategory(), kost.getAmount());
 
 					//adds euro sign to label of pie chart sector (add addEuroSign)
 					//Data pieChartSection = new PieChart.Data (kost.getCategory(), kost.getAmount()); 
@@ -106,8 +110,8 @@ public class MainController {
 
 					//костыль
 					@SuppressWarnings("deprecation")
-					String currentMonth = kostsBarChartController.getMonthNames().get(kost.getDate().getMonth());//changes
-					kostsBarChartController.getSeriesTotalKosts().getData().add(new XYChart.Data<String, Double>(currentMonth, totalAmountKost));//changes			
+					String currentMonth = kostsBarChartController.getMonthNames().get(kost.getDate().getMonth());
+					kostsBarChartController.getSeriesTotalKosts().getData().add(new XYChart.Data<String, Double>(currentMonth, totalAmountKost));		
 				}  
 				else {
 					kost = new Kost(currentAmount, currentCategory, SpendType.GAIN);
@@ -115,26 +119,27 @@ public class MainController {
 
 					//костыль
 					@SuppressWarnings("deprecation")
-					String currentMonth = kostsBarChartController.getMonthNames().get(kost.getDate().getMonth());//changes
-					kostsBarChartController.getSeriesTotalGains().getData().add(new XYChart.Data<String, Double>(currentMonth, totalAmountGain));//changes
+					String currentMonth = kostsBarChartController.getMonthNames().get(kost.getDate().getMonth());
+					kostsBarChartController.getSeriesTotalGains().getData().add(new XYChart.Data<String, Double>(currentMonth, totalAmountGain));
 				}
-				
+
 				kost.setComment(textAreaComment.getText());
 				kostsTableViewController.kostTableData.add(kost);
 				statusBarController.updateLabel(totalAmountKost, totalAmountGain);
 				handleCancelButton();	
-				
+
 				@SuppressWarnings("deprecation")
-				String currentMonth = kostsBarChartController.getMonthNames().get(kost.getDate().getMonth());//changes
-				kostsBarChartController.getSeriesTotalDifference().getData().add(new javafx.scene.chart.XYChart.Data<String, Double>(currentMonth, totalAmountGain-totalAmountKost));//changes
+				String currentMonth = kostsBarChartController.getMonthNames().get(kost.getDate().getMonth());
+				kostsBarChartController.getSeriesTotalDifference().getData().add(new javafx.scene.chart.XYChart.Data<String, Double>(currentMonth, totalAmountGain-totalAmountKost));
+			}		
 		}
 
 		catch (NumberFormatException e1) {
 			Alert outputWindow = new Alert(AlertType.WARNING, "Sum must be a number! Please correct your data.");
 			outputWindow.showAndWait();
-				}	
-		}
-	
+		}	
+	}
+
 	@FXML
 	public void handleCancelButton() {
 		textFieldCategory.clear();
@@ -143,7 +148,7 @@ public class MainController {
 		radioKost.setSelected(true);
 	}
 
-/*----------------------------------------Utils-----------------------------------------------------------------------------------------*/	
+	/*----------------------------------------Utils-----------------------------------------------------------------------------------------*/	
 	public void evaluateTotalAmount(Kost kost) {
 		double currentAmount = kost.getAmount();
 		if(kost.getSpendType()==SpendType.KOST){
@@ -153,12 +158,12 @@ public class MainController {
 			totalAmountGain=totalAmountGain-currentAmount;  
 		}
 	}
-	
+
 	public void resetTotalAmount() {
 		totalAmountGain = 0.0;
 		totalAmountKost = 0.0;
 	}
-/*----------------------------Buttons enable rules -------------------------------------------------------------------------------------*/
+	/*----------------------------Buttons enable rules -------------------------------------------------------------------------------------*/
 	public void enableAddButton() {
 		BooleanBinding bb = new BooleanBinding() {			
 			{
