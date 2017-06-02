@@ -8,7 +8,7 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
 
 public class KostsPieChartController {
-	public GUIController guiController;
+	public MainController guiController;
 	
 	@FXML
 	private PieChart pieChart;
@@ -16,7 +16,7 @@ public class KostsPieChartController {
 	private ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
 	
 	//link to main controller
-	public void setGuiController(GUIController guiController) {
+	public void setGuiController(MainController guiController) {
 		this.guiController = guiController;
 	}
 	

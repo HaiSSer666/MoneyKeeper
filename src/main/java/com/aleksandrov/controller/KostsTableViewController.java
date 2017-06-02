@@ -11,7 +11,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class KostsTableViewController {
-	public GUIController guiController;
+	public MainController guiController;
 	
 	@FXML ObservableList<Kost> kostTableData = FXCollections.observableArrayList();
 	
@@ -29,7 +29,7 @@ public class KostsTableViewController {
 	TableColumn<Kost, String> columnComment;
 	
 	//link to main controller
-	public void setGuiController(GUIController guiController) {
+	public void setGuiController(MainController guiController) {
 		this.guiController = guiController;
 	}
 	

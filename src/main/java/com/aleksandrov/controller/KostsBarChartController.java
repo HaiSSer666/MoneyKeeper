@@ -15,7 +15,7 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 
 public class KostsBarChartController {
-	public GUIController guiController;
+	public MainController guiController;
 	
 	@FXML
 	private BarChart<String, Double> barChart;
@@ -52,7 +52,7 @@ public class KostsBarChartController {
 	}
 	
 	//link to main controller
-	public void setGuiController(GUIController guiController) {
+	public void setGuiController(MainController guiController) {
 		this.guiController = guiController;
 	}
 	

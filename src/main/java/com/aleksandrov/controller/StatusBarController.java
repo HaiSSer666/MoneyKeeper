@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
 public class StatusBarController {
-	public GUIController guiController;
+	public MainController guiController;
 	
 	//labels
 	@FXML
@@ -21,7 +21,7 @@ public class StatusBarController {
 	}
 	
 	//link to main controller
-		public void setGuiController(GUIController guiController) {
+		public void setGuiController(MainController guiController) {
 			this.guiController = guiController;
 		}
 

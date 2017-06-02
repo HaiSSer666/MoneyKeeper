@@ -18,7 +18,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
-public class GUIController {	
+public class MainController {	
 	//links to sub controllers
 	@FXML
 	public MenuViewController menuViewController;
@@ -59,7 +59,6 @@ public class GUIController {
 	Button cancelButton;
 	
 	/*--------------------------------------getters for sub controllers-----------------------------------------------------------------*/	
-	//temporal solution for statusBar
 	public double getTotalAmountKost() {
 		return totalAmountKost;
 	}
@@ -87,7 +86,7 @@ public class GUIController {
 	}
 	
 	/*--------------------------------------Start-up methods----------------------------------------------------------------------------*/		
-	public GUIController() {
+	public MainController() {
 	}
 
 	@FXML

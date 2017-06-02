@@ -21,7 +21,7 @@ import javafx.scene.control.Alert.AlertType;
 
 public class MenuViewController {
 	public Main mainApp;
-	@FXML public GUIController guiController;
+	@FXML public MainController guiController;
 	@FXML public KostsTableViewController kostsTableViewController;
 	
 	@FXML
@@ -34,7 +34,7 @@ public class MenuViewController {
 	MenuItem deleteAllItem;
 
 	//link to main controller
-	public void setGuiController(GUIController guiController) {
+	public void setGuiController(MainController guiController) {
 		this.guiController = guiController;
 	}
 	
