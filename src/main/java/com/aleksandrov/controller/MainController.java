@@ -1,15 +1,15 @@
 package com.aleksandrov.controller;
+
 /**
  * main GUI controller
  * Author Oleksii A.
  */
+
 import com.aleksandrov.Main;
 import com.aleksandrov.model.Kost;
 import com.aleksandrov.model.SpendType;
 import javafx.beans.binding.BooleanBinding;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -58,7 +58,7 @@ public class MainController {
 	@FXML
 	Button cancelButton;
 	
-	/*--------------------------------------getters for sub controllers-----------------------------------------------------------------*/	
+	/*--------------------------------------getters-------------------------------------------------------------------------------------*/	
 	public double getTotalAmountKost() {
 		return totalAmountKost;
 	}
@@ -66,25 +66,6 @@ public class MainController {
 	public double getTotalAmountGain() {
 		return totalAmountGain;
 	}
-	
-	//temporal solution for barChart
-	public XYChart.Series<String, Double> getSeriesTotalKosts() {
-		return kostsBarChartController.getSeriesTotalKosts();
-	}
-
-	public XYChart.Series<String, Double> getSeriesTotalGains() {
-		return kostsBarChartController.getSeriesTotalGains();
-	}
-
-	public XYChart.Series<String, Double> getSeriesTotalDifference() {
-		return kostsBarChartController.getSeriesTotalDifference();
-	}
-
-	//temporal solution for pieChart
-	public ObservableList<PieChart.Data> getPieChartData() {
-		return kostsPieChartController.getPieChartData();
-	}
-	
 	/*--------------------------------------Start-up methods----------------------------------------------------------------------------*/		
 	public MainController() {
 	}
@@ -106,9 +87,9 @@ public class MainController {
 	public void setMainApp(Main mainApp) {
 		this.main = mainApp;
 	}
-	/*--------------------------------------------Buttons-----------------------------------------------------------------------------*/
+	/*--------------------------------------------Buttons-------------------------------------------------------------------------------*/
 	@FXML
-	public void handleAddButton(){
+	public void handleAddButton() {
 			try{			
 				double currentAmount = Double.parseDouble(textFieldSum.getText());
 				String currentCategory = textFieldCategory.getText();
@@ -148,22 +129,22 @@ public class MainController {
 				kostsBarChartController.getSeriesTotalDifference().getData().add(new javafx.scene.chart.XYChart.Data<String, Double>(currentMonth, totalAmountGain-totalAmountKost));//changes
 		}
 
-		catch (NumberFormatException e1){
+		catch (NumberFormatException e1) {
 			Alert outputWindow = new Alert(AlertType.WARNING, "Sum must be a number! Please correct your data.");
 			outputWindow.showAndWait();
 				}	
 		}
 	
 	@FXML
-	public void handleCancelButton(){
+	public void handleCancelButton() {
 		textFieldCategory.clear();
 		textFieldSum.clear();
 		textAreaComment.clear();
 		radioKost.setSelected(true);
 	}
 
-/*----------------------------------------Utils-----------------------------------------------------------------------------------*/	
-	public void evaluateTotalAmount(Kost kost){
+/*----------------------------------------Utils-----------------------------------------------------------------------------------------*/	
+	public void evaluateTotalAmount(Kost kost) {
 		double currentAmount = kost.getAmount();
 		if(kost.getSpendType()==SpendType.KOST){
 			totalAmountKost=totalAmountKost-currentAmount; 
@@ -173,12 +154,12 @@ public class MainController {
 		}
 	}
 	
-	public void resetTotalAmount(){
+	public void resetTotalAmount() {
 		totalAmountGain = 0.0;
 		totalAmountKost = 0.0;
 	}
-/*----------------------------Buttons enable rules -------------------------------------------------------------------------------*/
-	public void enableAddButton(){
+/*----------------------------Buttons enable rules -------------------------------------------------------------------------------------*/
+	public void enableAddButton() {
 		BooleanBinding bb = new BooleanBinding() {			
 			{
 				super.bind(textFieldCategory.textProperty(),
@@ -195,7 +176,7 @@ public class MainController {
 		addButton.disableProperty().bind(bb);
 	}	
 
-	public void enableCancelButton(){
+	public void enableCancelButton() {
 		BooleanBinding bb = new BooleanBinding() {			
 			{
 				super.bind(textFieldCategory.textProperty(),

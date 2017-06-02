@@ -45,7 +45,7 @@ public class MenuViewController {
 	
 	@FXML
 	public void handleDeleteMenuItem(){		 
-		ObservableList<PieChart.Data> pieChartData = guiController.getPieChartData();	
+		ObservableList<PieChart.Data> pieChartData = guiController.kostsPieChartController.getPieChartData();	
 		TableView<Kost> tableOfKosts = guiController.kostsTableViewController.tableOfKosts;
 
 		Kost selectedItem = tableOfKosts.getSelectionModel().getSelectedItem();		
@@ -77,10 +77,10 @@ public class MenuViewController {
 	public void handleDeleteAllMenuItem(){
 		TableView<Kost> tableOfKosts = guiController.kostsTableViewController.tableOfKosts;
 
-		XYChart.Series<String, Double> seriesTotalKosts = guiController.getSeriesTotalKosts();
-		XYChart.Series<String, Double> seriesTotalGains = guiController.getSeriesTotalGains();
-		XYChart.Series<String, Double> seriesTotalDifference = guiController.getSeriesTotalDifference();
-		ObservableList<PieChart.Data> pieChartData = guiController.getPieChartData();
+		XYChart.Series<String, Double> seriesTotalKosts = guiController.kostsBarChartController.getSeriesTotalKosts();
+		XYChart.Series<String, Double> seriesTotalGains = guiController.kostsBarChartController.getSeriesTotalGains();
+		XYChart.Series<String, Double> seriesTotalDifference = guiController.kostsBarChartController.getSeriesTotalDifference();
+		ObservableList<PieChart.Data> pieChartData = guiController.kostsPieChartController.getPieChartData();
 
 		if(tableOfKosts.getItems().size()>=1){
 			Alert alert = new Alert(AlertType.CONFIRMATION);
