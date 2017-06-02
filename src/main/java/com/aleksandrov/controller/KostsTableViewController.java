@@ -14,7 +14,6 @@ public class KostsTableViewController {
 	public MainController guiController;
 	
 	@FXML ObservableList<Kost> kostTableData = FXCollections.observableArrayList();
-	
 	@FXML TableView<Kost> tableOfKosts;
 	
 	@FXML
@@ -31,11 +30,6 @@ public class KostsTableViewController {
 	//link to main controller
 	public void setGuiController(MainController guiController) {
 		this.guiController = guiController;
-	}
-	
-	//2
-	public TableView<Kost> getTableOfKosts() {
-		return tableOfKosts;
 	}
 	
 	@FXML

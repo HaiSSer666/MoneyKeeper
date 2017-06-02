@@ -30,10 +30,6 @@ public class KostsBarChartController {
 
 	//lists
 	private ObservableList<String> monthNames = FXCollections.observableArrayList();
-
-	public NumberAxis getyAxis() {
-		return yAxis;
-	}
 	
 	public XYChart.Series<String, Double> getSeriesTotalKosts() {
 		return seriesTotalKosts;
@@ -65,7 +61,7 @@ public class KostsBarChartController {
 		monthNames.addAll(Arrays.asList(months));
 		xAxis.setCategories(monthNames);     
 
-		//отображает только тотал кост/гейн, а не по месяцам
+		//show total kosts/gains and not for every month separately 
 		seriesTotalKosts.setName("Total kosts");
 		seriesTotalGains.setName("Total gains");;
 		seriesTotalDifference.setName("Difference");;
@@ -73,8 +69,8 @@ public class KostsBarChartController {
 
 	@SuppressWarnings("deprecation")
 	public void updateBarChartData(Kost kost){
-		double totalAmountKost = guiController.getTotalAmountKost();//change
-		double totalAmountGain = guiController.getTotalAmountGain();//change
+		double totalAmountKost = guiController.getTotalAmountKost();
+		double totalAmountGain = guiController.getTotalAmountGain();
 		String currentMonth = monthNames.get(kost.getDate().getMonth());
 		seriesTotalKosts.getData().add(new XYChart.Data<String, Double>(currentMonth, totalAmountKost));
 		seriesTotalGains.getData().add(new XYChart.Data<String, Double>(currentMonth, totalAmountGain));

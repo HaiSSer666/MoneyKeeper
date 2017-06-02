@@ -24,7 +24,7 @@
 						<MenuItem fx:id="deleteItem" mnemonicParsing="false"
 							onAction="#handleDeleteMenuItem" text="Delete" />
 						<MenuItem fx:id="deleteAllItem" mnemonicParsing="false"
-							onAction="#handleDeleteAllMenuItem" text="Delete all" />
+							onAction="#handleDeleteAllMenuItems" text="Delete all" />
 					</items>
 				</Menu>
 				<Menu id="menuHelp_ID" mnemonicParsing="false" text="Help">

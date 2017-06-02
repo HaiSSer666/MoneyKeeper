@@ -1,7 +1,6 @@
 package com.aleksandrov.controller;
 
 import java.util.Optional;
-import com.aleksandrov.Main;
 import com.aleksandrov.model.Kost;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -20,9 +19,7 @@ import javafx.scene.control.Alert.AlertType;
  */
 
 public class MenuViewController {
-	public Main mainApp;
 	@FXML public MainController guiController;
-	@FXML public KostsTableViewController kostsTableViewController;
 	
 	@FXML
 	MenuItem aboutItem;
@@ -36,11 +33,6 @@ public class MenuViewController {
 	//link to main controller
 	public void setGuiController(MainController guiController) {
 		this.guiController = guiController;
-	}
-	
-	//link to main app
-	public void setMainApp(Main mainApp) {
-		this.mainApp = mainApp;
 	}
 	
 	@FXML
@@ -69,12 +61,10 @@ public class MenuViewController {
 				}
 			}	
 		}	
-		
-		//guiController.kostsBarChartController.getyAxis().autosize();
 	}
 
 	@FXML
-	public void handleDeleteAllMenuItem(){
+	public void handleDeleteAllMenuItems(){
 		TableView<Kost> tableOfKosts = guiController.kostsTableViewController.tableOfKosts;
 
 		XYChart.Series<String, Double> seriesTotalKosts = guiController.kostsBarChartController.getSeriesTotalKosts();
@@ -103,19 +93,17 @@ public class MenuViewController {
 		else{
 			showEmptyTableInfo();
 		}
-		
-		//guiController.kostsBarChartController.getyAxis().autosize();
 	}
 
 	@FXML
 	public void handleAboutItem(){
-		Alert infoWindow = new Alert(AlertType.INFORMATION, "Version 1.0.0, Author - Oleksii A.");
+		Alert infoWindow = new Alert(AlertType.INFORMATION, "Version alpha 1.0.0, Author - Oleksii A.");
 		infoWindow.showAndWait();
 	}
 
 	@FXML
 	public void handleExitItem(){
-		mainApp.primaryStage.close();
+		guiController.main.primaryStage.close();
 	}
 	
 	public void showEmptyTableInfo(){
