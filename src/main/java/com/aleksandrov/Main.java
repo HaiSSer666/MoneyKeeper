@@ -13,7 +13,7 @@ import javafx.scene.layout.AnchorPane;
 
 public class Main extends Application {
 	public Stage primaryStage;
-	//private BorderPane MenuView;
+
 	@Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -26,14 +26,14 @@ public class Main extends Application {
         try {
         	// «агружаем корневой макет из fxml файла.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("view/GUI.fxml"));//мен€ть на view/GUI.fxml при смене пакета. не затупи, бокопор ебаный
+            loader.setLocation(Main.class.getResource("controller/GUI.fxml"));//мен€ть на view/GUI.fxml при смене пакета. не затупи, бокопор ебаный
             AnchorPane GUI = (AnchorPane) loader.load();
             
             // ќтображаем сцену
             Scene scene = new Scene(GUI);
             primaryStage.setScene(scene);
             primaryStage.show();
-            GUIController controller = loader.getController();
+            MainController controller = loader.getController();
             controller.setMainApp(this);
         } catch (IOException e) {
             e.printStackTrace();

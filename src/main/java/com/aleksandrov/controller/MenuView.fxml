@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="710.0" prefWidth="1040.0"
+	xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="com.aleksandrov.controller.MenuViewController">
+	<children>
+		<MenuBar layoutY="2.0" prefHeight="20.0"
+			AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+			AnchorPane.topAnchor="0.0">
+			<menus>
+				<Menu id="menuFile_ID" mnemonicParsing="false" text="File">
+					<items>
+						<MenuItem fx:id="exitItem" mnemonicParsing="false"
+							onAction="#handleExitItem" text="Close" />
+					</items>
+				</Menu>
+				<Menu id="menuEdit_ID" mnemonicParsing="false" text="Edit">
+					<items>
+						<MenuItem fx:id="deleteItem" mnemonicParsing="false"
+							onAction="#handleDeleteMenuItem" text="Delete" />
+						<MenuItem fx:id="deleteAllItem" mnemonicParsing="false"
+							onAction="#handleDeleteAllMenuItems" text="Delete all" />
+					</items>
+				</Menu>
+				<Menu id="menuHelp_ID" mnemonicParsing="false" text="Help">
+					<items>
+						<MenuItem fx:id="aboutItem" mnemonicParsing="false"
+							onAction="#handleAboutItem" text="About" />
+					</items>
+				</Menu>
+			</menus>
+		</MenuBar>
+	</children>
+</AnchorPane>

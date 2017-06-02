@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+
+<AnchorPane prefHeight="31.0" prefWidth="1040.0"
+	xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="com.aleksandrov.controller.StatusBarController">
+	<children>
+		<SplitPane layoutY="687.0" orientation="VERTICAL"
+			prefHeight="31.0" AnchorPane.bottomAnchor="0.0"
+			AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+			<items>
+				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="28.0"
+					prefWidth="580.0">
+					<children>
+						<HBox prefHeight="27.0" prefWidth="828.0">
+							<children>
+								<Label prefHeight="15.0" prefWidth="180.0" text="Total kosts amount = ">
+									<font>
+										<Font size="18.0" />
+									</font>
+								</Label>
+								<Label id="labelKost_ID" fx:id="labelTotalAmountKost"
+									prefHeight="17.0" prefWidth="106.0" text="0.0">
+									<font>
+										<Font size="18.0" />
+									</font>
+								</Label>
+								<Label text="Total gains amount = ">
+									<font>
+										<Font size="18.0" />
+									</font>
+								</Label>
+								<Label id="labelGain_ID" fx:id="labelTotalAmountGain"
+									prefHeight="17.0" prefWidth="106.0" text="0.0">
+									<font>
+										<Font size="18.0" />
+									</font>
+								</Label>
+								<Label text="Difference = ">
+									<font>
+										<Font size="18.0" />
+									</font>
+								</Label>
+								<Label id="labelDifference_ID" fx:id="labelDifference"
+									prefHeight="27.0" prefWidth="106.0" text="0.0">
+									<font>
+										<Font size="18.0" />
+									</font>
+								</Label>
+							</children>
+						</HBox>
+					</children>
+				</AnchorPane>
+			</items>
+		</SplitPane>
+	</children>
+</AnchorPane>

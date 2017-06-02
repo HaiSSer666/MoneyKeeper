@@ -8,5 +8,5 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({ initialStateTest.class, buttonsActivationTest.class, mainFunktionalityTest.class,
 		menuBarTest.class })
 public class TestsSuit {
-
 }
+     
