@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.chart.BarChart?>
-<?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextArea?>
@@ -16,56 +11,40 @@
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.text.Font?>
 
-<AnchorPane id="mainApp_ID" prefHeight="730.0" prefWidth="1040.0"
-	xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="com.aleksandrov.controller.MainController">
+<AnchorPane id="mainApp_ID" prefHeight="715.0" prefWidth="1115.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aleksandrov.controller.MainController">
 	<children>
 		<fx:include fx:id="menuView" source="MenuView.fxml" />
-		<Button fx:id="addButton" disable="true" layoutX="766.0"
-			layoutY="34.0" mnemonicParsing="false" onAction="#handleAddButton"
-			prefHeight="25.0" prefWidth="70.0" text="Add " />
-		<Button fx:id="cancelButton" disable="true" layoutX="766.0"
-			layoutY="71.0" mnemonicParsing="false" onAction="#handleCancelButton"
-			prefHeight="25.0" prefWidth="70.0" text="Cancel" />
-		<TextField fx:id="textFieldSum" layoutX="17.0" layoutY="71.0"
-			prefHeight="25.0" prefWidth="106.0" AnchorPane.leftAnchor="14.0">
+		<Button fx:id="addButton" disable="true" layoutX="1029.0" layoutY="34.0" mnemonicParsing="false" onAction="#handleAddButton" prefHeight="25.0" prefWidth="70.0" text="Add " />
+		<Button fx:id="cancelButton" disable="true" layoutX="1029.0" layoutY="71.0" mnemonicParsing="false" onAction="#handleCancelButton" prefHeight="25.0" prefWidth="70.0" text="Cancel" />
+		<TextField fx:id="textFieldSum" layoutX="17.0" layoutY="71.0" prefHeight="25.0" prefWidth="106.0" AnchorPane.leftAnchor="14.0">
 			<tooltip>
 				<Tooltip text="Sum of money must be greater than 0!" />
 			</tooltip>
 		</TextField>
-		<Label layoutX="14.0" layoutY="34.0" prefHeight="25.0"
-			prefWidth="133.0" text="Enter sum of money:" AnchorPane.leftAnchor="14.0" />
-		<TextField fx:id="textFieldCategory" layoutX="147.0"
-			layoutY="71.0">
+		<Label layoutX="14.0" layoutY="34.0" prefHeight="25.0" prefWidth="133.0" text="Enter sum of money:" AnchorPane.leftAnchor="14.0" />
+		<TextField fx:id="textFieldCategory" layoutX="147.0" layoutY="71.0">
 			<tooltip>
 				<Tooltip text="Catagory must contain only 1 word!" />
 			</tooltip>
 		</TextField>
 		<Label layoutX="147.0" layoutY="38.0" text="Enter category:" />
-		<TextArea fx:id="textAreaComment" layoutX="331.0" layoutY="65.0"
-			prefHeight="25.0" prefWidth="248.0">
+		<DatePicker fx:id="datePicker" layoutX="329.0" layoutY="71.0" prefHeight="25.0" prefWidth="174.0" showWeekNumbers="true" />
+		<Label layoutX="329.0" layoutY="38.0" text="Date of purcahse/income:" />
+		<TextArea fx:id="textAreaComment" layoutX="715.0" layoutY="57.0" prefHeight="25.0" prefWidth="282.0">
 			<tooltip>
 				<Tooltip text="This field is optional!" />
 			</tooltip>
 		</TextArea>
-		<Label layoutX="331.0" layoutY="38.0" text="Comment:" />
-		<RadioButton fx:id="radioKost" layoutX="597.0" layoutY="75.0"
-			mnemonicParsing="false" selected="true" text="Kost">
+		<Label layoutX="715.0" layoutY="38.0" text="Comment:" />
+		<RadioButton fx:id="radioKost" layoutX="551.0" layoutY="75.0" mnemonicParsing="false" selected="true" text="Kost">
 			<toggleGroup>
 				<ToggleGroup fx:id="typeOfKost" />
 			</toggleGroup>
 		</RadioButton>
-		<RadioButton fx:id="radioGain" layoutX="672.0" layoutY="75.0"
-			mnemonicParsing="false" text="Gain" toggleGroup="$typeOfKost" />
-		<Label layoutX="597.0" layoutY="38.0" prefHeight="17.0"
-			prefWidth="149.0" text="Choose type of the sum:" />
-		<TabPane layoutY="111.0" prefHeight="572.0" prefWidth="850.0"
-			tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="27.0"
-			AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-			AnchorPane.topAnchor="111.0">
+		<RadioButton fx:id="radioGain" layoutX="626.0" layoutY="75.0" mnemonicParsing="false" text="Gain" toggleGroup="$typeOfKost" />
+		<Label layoutX="551.0" layoutY="38.0" prefHeight="17.0" prefWidth="149.0" text="Choose type of the sum:" />
+		<TabPane layoutY="110.0" prefHeight="577.0" prefWidth="1120.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="38.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="110.0">
 			<tabs>
 				<Tab id="tableTab" text="Table">
 					<content>
@@ -84,10 +63,6 @@
 				</Tab>
 			</tabs>
 		</TabPane>
-		<fx:include layoutY="687.0" fx:id="statusBar" source="StatusBar.fxml" />
-		<DatePicker fx:id="datePicker" layoutX="852.0" layoutY="71.0"
-			prefHeight="25.0" prefWidth="174.0" showWeekNumbers="true" visible="false" />
-		<Label layoutX="852.0" layoutY="38.0" text="Date of purcahse/income"
-			visible="false" />
+		<fx:include fx:id="statusBar" layoutY="687.0" source="StatusBar.fxml" />
 	</children>
 </AnchorPane>

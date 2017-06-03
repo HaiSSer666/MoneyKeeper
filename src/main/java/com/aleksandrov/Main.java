@@ -33,6 +33,7 @@ public class Main extends Application {
             Scene scene = new Scene(GUI);
             primaryStage.setScene(scene);
             primaryStage.show();
+            primaryStage.setResizable(false);
             MainController controller = loader.getController();
             controller.setMainApp(this);
         } catch (IOException e) {
