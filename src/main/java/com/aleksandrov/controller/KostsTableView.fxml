@@ -4,15 +4,16 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="580.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aleksandrov.controller.KostsTableViewController">
+<AnchorPane prefHeight="580.0" prefWidth="1115.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aleksandrov.controller.KostsTableViewController">
 	<children>
-		<TableView fx:id="tableOfKosts" prefHeight="550.0" prefWidth="1040.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+		<TableView fx:id="tableOfKosts" prefHeight="550.0" prefWidth="1115.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 			<columns>
-				<TableColumn fx:id="columnAmount" prefWidth="98.0" resizable="false" text="Sum" />
-				<TableColumn fx:id="columnCategory" prefWidth="123.0" resizable="false" text="Category" />
-				<TableColumn fx:id="columnType" prefWidth="78.0" resizable="false" text="Type" />
-				<TableColumn fx:id="columnDate" prefWidth="186.0" resizable="false" text="Date" />
-				<TableColumn fx:id="columnComment" prefWidth="365.0" resizable="false" text="Comment" />
+				<TableColumn fx:id="columnAmount" prefWidth="101.0" resizable="false" text="Sum" />
+				<TableColumn fx:id="columnCategory" prefWidth="142.0" resizable="false" text="Category" />
+				<TableColumn fx:id="columnType" prefWidth="93.0" resizable="false" text="Type" />
+            <TableColumn fx:id="columnDateOfPurchaseOrIncome" prefWidth="206.0" text="Date of purchase/income" />
+				<TableColumn fx:id="columnDate" prefWidth="215.0" resizable="false" text="Creation date" />
+				<TableColumn fx:id="columnComment" maxWidth="461.0" prefWidth="357.0" resizable="false" text="Comment" />
 			</columns>
 		</TableView>
 	</children>

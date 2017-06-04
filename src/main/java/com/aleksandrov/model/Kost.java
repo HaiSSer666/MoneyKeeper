@@ -7,22 +7,16 @@ public class Kost {
 	public double amount;
 	public String category;
 	SpendType spendType;
-	public Date date;
-	public LocalDate dateOfPurchaseIncome;
+	public Date creationDate;
+	public LocalDate dateOfPurchaseOrIncome;
 	public String comment; 
 	
-	public Kost(double amount, String category, SpendType spendType){
+	public Kost(double amount, String category, SpendType spendType, LocalDate dateOfPurchaseOrIncome){
 		this.amount=amount;
 		this.category=category;
 		this.spendType=spendType;
-		this.date=new Date();
-	}
-	
-	public Kost(double amount, String category, SpendType spendType, LocalDate dateOfPurchaseIncome){
-		this.amount=amount;
-		this.category=category;
-		this.spendType=spendType;
-		this.dateOfPurchaseIncome=dateOfPurchaseIncome;
+		this.dateOfPurchaseOrIncome=dateOfPurchaseOrIncome;
+		this.creationDate=new Date();
 	}
 
 	public String getCategory() {
@@ -33,12 +27,8 @@ public class Kost {
 		return amount;
 	}
 	
-	public Date getDate() {
-		return date;
-	}
-	
-	public LocalDate getLocalDate() {
-	return dateOfPurchaseIncome;
+	public Date getCreationDate() {
+		return creationDate;
 	}
 	
 	public SpendType getSpendType() {
@@ -51,5 +41,9 @@ public class Kost {
 	
 	public void setComment(String comment) {
 		this.comment=comment;
+	}
+
+	public LocalDate getDateOfPurchaseOrIncome() {
+		return dateOfPurchaseOrIncome;
 	}
 }

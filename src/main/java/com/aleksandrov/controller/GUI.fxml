@@ -12,7 +12,7 @@
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="mainApp_ID" prefHeight="715.0" prefWidth="1115.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aleksandrov.controller.MainController">
+<AnchorPane id="mainApp_ID" prefHeight="715.0" prefWidth="1110.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aleksandrov.controller.MainController">
 	<children>
 		<fx:include fx:id="menuView" source="MenuView.fxml" />
 		<Button fx:id="addButton" disable="true" layoutX="1029.0" layoutY="34.0" mnemonicParsing="false" onAction="#handleAddButton" prefHeight="25.0" prefWidth="70.0" text="Add " />

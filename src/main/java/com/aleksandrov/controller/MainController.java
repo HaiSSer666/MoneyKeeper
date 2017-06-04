@@ -1,5 +1,7 @@
 package com.aleksandrov.controller;
 
+import java.time.LocalDate;
+
 /**
  * main GUI controller
  * Author Oleksii A.
@@ -14,6 +16,7 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -57,6 +60,10 @@ public class MainController {
 	Button addButton;
 	@FXML
 	Button cancelButton;
+	
+	//date picker
+	@FXML
+	DatePicker datePicker;
 
 	/*--------------------------------------getters-------------------------------------------------------------------------------------*/	
 	public double getTotalAmountKost() {
@@ -82,6 +89,7 @@ public class MainController {
 		//conditions
 		enableCancelButton();
 		enableAddButton();
+		datePicker.setValue(LocalDate.now());
 	}
 
 	public void setMainApp(Main mainApp) {
@@ -100,7 +108,7 @@ public class MainController {
 				return;
 			}	else {
 				if(radioKost.isSelected()){
-					kost = new Kost(currentAmount, currentCategory, SpendType.KOST);
+					kost = new Kost(currentAmount, currentCategory, SpendType.KOST, datePicker.getValue());
 					totalAmountKost+=currentAmount;
 					kostsPieChartController.updatePieChartData(kost.getCategory(), kost.getAmount());
 
@@ -110,26 +118,25 @@ public class MainController {
 
 					//костыль
 					@SuppressWarnings("deprecation")
-					String currentMonth = kostsBarChartController.getMonthNames().get(kost.getDate().getMonth());
+					String currentMonth = kostsBarChartController.getMonthNames().get(kost.getCreationDate().getMonth());
 					kostsBarChartController.getSeriesTotalKosts().getData().add(new XYChart.Data<String, Double>(currentMonth, totalAmountKost));		
 				}  
 				else {
-					kost = new Kost(currentAmount, currentCategory, SpendType.GAIN);
+					kost = new Kost(currentAmount, currentCategory, SpendType.GAIN, datePicker.getValue());
 					totalAmountGain+=currentAmount;
 
 					//костыль
 					@SuppressWarnings("deprecation")
-					String currentMonth = kostsBarChartController.getMonthNames().get(kost.getDate().getMonth());
+					String currentMonth = kostsBarChartController.getMonthNames().get(kost.getCreationDate().getMonth());
 					kostsBarChartController.getSeriesTotalGains().getData().add(new XYChart.Data<String, Double>(currentMonth, totalAmountGain));
 				}
-
 				kost.setComment(textAreaComment.getText());
 				kostsTableViewController.kostTableData.add(kost);
 				statusBarController.updateLabel(totalAmountKost, totalAmountGain);
 				handleCancelButton();	
 
 				@SuppressWarnings("deprecation")
-				String currentMonth = kostsBarChartController.getMonthNames().get(kost.getDate().getMonth());
+				String currentMonth = kostsBarChartController.getMonthNames().get(kost.getCreationDate().getMonth());
 				kostsBarChartController.getSeriesTotalDifference().getData().add(new javafx.scene.chart.XYChart.Data<String, Double>(currentMonth, totalAmountGain-totalAmountKost));
 			}		
 		}

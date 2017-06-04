@@ -71,7 +71,7 @@ public class KostsBarChartController {
 	public void updateBarChartData(Kost kost){
 		double totalAmountKost = guiController.getTotalAmountKost();
 		double totalAmountGain = guiController.getTotalAmountGain();
-		String currentMonth = monthNames.get(kost.getDate().getMonth());
+		String currentMonth = monthNames.get(kost.getCreationDate().getMonth());
 		seriesTotalKosts.getData().add(new XYChart.Data<String, Double>(currentMonth, totalAmountKost));
 		seriesTotalGains.getData().add(new XYChart.Data<String, Double>(currentMonth, totalAmountGain));
 		seriesTotalDifference.getData().add(new javafx.scene.chart.XYChart.Data<String, Double>(currentMonth, totalAmountGain-totalAmountKost));

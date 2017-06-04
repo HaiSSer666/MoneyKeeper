@@ -1,5 +1,6 @@
 package com.aleksandrov.controller;
 
+import java.time.LocalDate;
 import java.util.Date;
 import com.aleksandrov.model.Kost;
 import com.aleksandrov.model.SpendType;
@@ -23,6 +24,8 @@ public class KostsTableViewController {
 	@FXML
 	TableColumn<Kost, SpendType> columnType;
 	@FXML
+	TableColumn<Kost, LocalDate> columnDateOfPurchaseOrIncome;
+	@FXML
 	TableColumn<Kost, Date> columnDate;
 	@FXML
 	TableColumn<Kost, String> columnComment;
@@ -37,7 +40,8 @@ public class KostsTableViewController {
 		columnAmount.setCellValueFactory(new PropertyValueFactory<Kost, Double>("amount"));	
 		columnCategory.setCellValueFactory(new PropertyValueFactory<Kost, String>("category"));		
 		columnType.setCellValueFactory(new PropertyValueFactory<Kost, SpendType>("spendType"));	
-		columnDate.setCellValueFactory(new PropertyValueFactory<Kost, Date>("date"));	//LocalDate -> Date, dateOfPurchaseIncome -> date
+		columnDateOfPurchaseOrIncome.setCellValueFactory(new PropertyValueFactory<Kost, LocalDate>("dateOfPurchaseOrIncome"));
+		columnDate.setCellValueFactory(new PropertyValueFactory<Kost, Date>("creationDate"));
 		columnComment.setCellValueFactory(new PropertyValueFactory<Kost, String>("comment"));
 		tableOfKosts.setItems(kostTableData);	
 	}
