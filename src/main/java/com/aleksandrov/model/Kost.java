@@ -2,13 +2,11 @@ package com.aleksandrov.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public class Kost {
 	public double amount;
 	public String category;
 	SpendType spendType;
-	public Date creationDate;
 	public LocalDateTime testCreationDate;
 	public LocalDate dateOfPurchaseOrIncome;
 	public String comment; 
@@ -18,7 +16,6 @@ public class Kost {
 		this.category=category;
 		this.spendType=spendType;
 		this.dateOfPurchaseOrIncome=dateOfPurchaseOrIncome;
-		this.creationDate=new Date();
 		this.testCreationDate=LocalDateTime.now();
 	}
 
@@ -28,10 +25,6 @@ public class Kost {
 
 	public double getAmount() {
 		return amount;
-	}
-	
-	public Date getCreationDate() {
-		return creationDate;
 	}
 	
 	public SpendType getSpendType() {

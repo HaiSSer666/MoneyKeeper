@@ -23,16 +23,11 @@ import javafx.scene.control.TextField;
 
 public class MainController {	
 	//links to sub controllers
-	@FXML
-	public MenuViewController menuViewController;
-	@FXML
-	public KostsTableViewController kostsTableViewController;
-	@FXML
-	public KostsPieChartController kostsPieChartController;
-	@FXML
-	public KostsBarChartController kostsBarChartController;
-	@FXML
-	public StatusBarController statusBarController;
+	@FXML public MenuViewController menuViewController;
+	@FXML public KostsTableViewController kostsTableViewController;
+	@FXML public KostsPieChartController kostsPieChartController;
+	@FXML public KostsBarChartController kostsBarChartController;
+	@FXML public StatusBarController statusBarController;
 
 	//link to main app
 	public Main main;
@@ -42,29 +37,20 @@ public class MainController {
 	public double totalAmountGain;
 
 	//text fields
-	@FXML
-	TextField textFieldSum;
-	@FXML
-	TextField textFieldCategory;
-	@FXML
-	TextArea textAreaComment;
+	@FXML TextField textFieldSum;
+	@FXML TextField textFieldCategory;
+	@FXML TextArea textAreaComment;
 
 	//radio buttons
-	@FXML
-	RadioButton radioKost;
-	@FXML
-	RadioButton radioGain;
+	@FXML RadioButton radioKost;
+	@FXML RadioButton radioGain;
 
 	//buttons
-	@FXML
-	Button addButton;
-	@FXML
-	Button cancelButton;
-	
-	//date picker
-	@FXML
-	DatePicker datePicker;
+	@FXML Button addButton;
+	@FXML Button cancelButton;
 
+	//date picker
+	@FXML DatePicker datePicker;
 	/*--------------------------------------getters-------------------------------------------------------------------------------------*/	
 	public double getTotalAmountKost() {
 		return totalAmountKost;
@@ -102,6 +88,7 @@ public class MainController {
 			Kost kost;
 			String currentCategory = textFieldCategory.getText();				
 			double currentAmount = Double.parseDouble(textFieldSum.getText());
+			String currentMonth = String.valueOf(datePicker.getValue().getMonth());
 			if (currentAmount<0){
 				Alert outputWindow = new Alert(AlertType.WARNING, "Sum must be positive! Please correct your data.");
 				outputWindow.showAndWait();
@@ -111,32 +98,20 @@ public class MainController {
 					kost = new Kost(currentAmount, currentCategory, SpendType.KOST, datePicker.getValue());
 					totalAmountKost+=currentAmount;
 					kostsPieChartController.updatePieChartData(kost.getCategory(), kost.getAmount());
-
-					//adds euro sign to label of pie chart sector (add addEuroSign)
+					kostsBarChartController.getSeriesTotalKosts().getData().add(new XYChart.Data<String, Double>(currentMonth, totalAmountKost));
+					//adds euro sign to label of pie chart sector (add addEuroSign) TODO
 					//Data pieChartSection = new PieChart.Data (kost.getCategory(), kost.getAmount()); 
 					//pieChartSection.nameProperty().bind(Bindings.concat(pieChartSection.getName(), " ", pieChartSection.pieValueProperty(), " И"));
-
-					//костыль
-					@SuppressWarnings("deprecation")
-					String currentMonth = kostsBarChartController.getMonthNames().get(kost.getCreationDate().getMonth());
-					kostsBarChartController.getSeriesTotalKosts().getData().add(new XYChart.Data<String, Double>(currentMonth, totalAmountKost));		
 				}  
 				else {
 					kost = new Kost(currentAmount, currentCategory, SpendType.GAIN, datePicker.getValue());
 					totalAmountGain+=currentAmount;
-
-					//костыль
-					@SuppressWarnings("deprecation")
-					String currentMonth = kostsBarChartController.getMonthNames().get(kost.getCreationDate().getMonth());
 					kostsBarChartController.getSeriesTotalGains().getData().add(new XYChart.Data<String, Double>(currentMonth, totalAmountGain));
 				}
 				kost.setComment(textAreaComment.getText());
 				kostsTableViewController.kostTableData.add(kost);
 				statusBarController.updateLabel(totalAmountKost, totalAmountGain);
 				handleCancelButton();	
-
-				@SuppressWarnings("deprecation")
-				String currentMonth = kostsBarChartController.getMonthNames().get(kost.getCreationDate().getMonth());
 				kostsBarChartController.getSeriesTotalDifference().getData().add(new javafx.scene.chart.XYChart.Data<String, Double>(currentMonth, totalAmountGain-totalAmountKost));
 			}		
 		}
@@ -154,7 +129,6 @@ public class MainController {
 		textAreaComment.clear();
 		radioKost.setSelected(true);
 	}
-
 	/*----------------------------------------Utils-----------------------------------------------------------------------------------------*/	
 	public void evaluateTotalAmount(Kost kost) {
 		double currentAmount = kost.getAmount();

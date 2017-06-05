@@ -2,7 +2,6 @@ package com.aleksandrov.controller;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import com.aleksandrov.model.Kost;
 import com.aleksandrov.model.SpendType;
 import javafx.collections.FXCollections;
@@ -15,21 +14,17 @@ import javafx.scene.control.cell.PropertyValueFactory;
 public class KostsTableViewController {
 	public MainController guiController;
 	
+	//lists
 	@FXML ObservableList<Kost> kostTableData = FXCollections.observableArrayList();
-	@FXML TableView<Kost> tableOfKosts;
 	
-	@FXML
-	TableColumn<Kost, Double> columnAmount;
-	@FXML
-	TableColumn<Kost, String> columnCategory;
-	@FXML
-	TableColumn<Kost, SpendType> columnType;
-	@FXML
-	TableColumn<Kost, LocalDate> columnDateOfPurchaseOrIncome;
-	@FXML
-	TableColumn<Kost, LocalDateTime> columnDate;
-	@FXML
-	TableColumn<Kost, String> columnComment;
+	//table view and columns
+	@FXML TableView<Kost> tableOfKosts;
+	@FXML TableColumn<Kost, Double> columnAmount;
+	@FXML TableColumn<Kost, String> columnCategory;
+	@FXML TableColumn<Kost, SpendType> columnType;
+	@FXML TableColumn<Kost, LocalDate> columnDateOfPurchaseOrIncome;
+	@FXML TableColumn<Kost, LocalDateTime> columnDate;
+	@FXML TableColumn<Kost, String> columnComment;
 	
 	//link to main controller
 	public void setGuiController(MainController guiController) {

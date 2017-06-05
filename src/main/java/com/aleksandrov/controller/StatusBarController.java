@@ -7,12 +7,9 @@ public class StatusBarController {
 	public MainController guiController;
 	
 	//labels
-	@FXML
-	Label labelTotalAmountKost;
-	@FXML
-	Label labelTotalAmountGain;
-	@FXML
-	Label labelDifference;
+	@FXML Label labelTotalAmountKost;
+	@FXML Label labelTotalAmountGain;
+	@FXML Label labelDifference;
 	
 	public void updateLabel(double totalAmountKost, double totalAmountGain) {
 		labelTotalAmountGain.setText(Double.toString(totalAmountGain));

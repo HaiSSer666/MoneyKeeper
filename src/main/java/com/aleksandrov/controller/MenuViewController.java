@@ -19,16 +19,13 @@ import javafx.scene.control.Alert.AlertType;
  */
 
 public class MenuViewController {
-	@FXML public MainController guiController;
+	public MainController guiController;
 	
-	@FXML
-	MenuItem aboutItem;
-	@FXML
-	MenuItem exitItem;
-	@FXML
-	MenuItem deleteItem;
-	@FXML
-	MenuItem deleteAllItem;
+	//menu items
+	@FXML MenuItem aboutItem;
+	@FXML MenuItem exitItem;
+	@FXML MenuItem deleteItem;
+	@FXML MenuItem deleteAllItem;
 
 	//link to main controller
 	public void setGuiController(MainController guiController) {

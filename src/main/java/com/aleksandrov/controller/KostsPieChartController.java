@@ -10,9 +10,11 @@ import javafx.scene.chart.PieChart.Data;
 public class KostsPieChartController {
 	public MainController guiController;
 	
+	//pie chart
 	@FXML
 	private PieChart pieChart;
 	
+	//lists
 	private ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
 	
 	//link to main controller
@@ -33,7 +35,7 @@ public class KostsPieChartController {
 	}
 	
 	public void updatePieChartData(String category, double sum){
-		//String updateName = addEuroSign(sum, purpose); ;
+		//String updateName = addEuroSign(sum, purpose); TODO
 		for (Data d : pieChartData)
 		{
 			if (d.getName().equals(category)) { //category -> updateName if want to use addEuroSign
