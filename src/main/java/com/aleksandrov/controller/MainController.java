@@ -128,6 +128,7 @@ public class MainController {
 		textFieldSum.clear();
 		textAreaComment.clear();
 		radioKost.setSelected(true);
+		datePicker.setValue(LocalDate.now());
 	}
 	/*----------------------------------------Utils-----------------------------------------------------------------------------------------*/	
 	public void evaluateTotalAmount(Kost kost) {

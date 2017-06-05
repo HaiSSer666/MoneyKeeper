@@ -29,7 +29,7 @@
 			</tooltip>
 		</TextField>
 		<Label layoutX="147.0" layoutY="38.0" text="Enter category:" />
-		<DatePicker fx:id="datePicker" layoutX="329.0" layoutY="71.0" prefHeight="25.0" prefWidth="174.0" showWeekNumbers="true" />
+		<DatePicker fx:id="datePicker" editable="false" layoutX="329.0" layoutY="71.0" prefHeight="25.0" prefWidth="174.0" showWeekNumbers="true" />
 		<Label layoutX="329.0" layoutY="38.0" text="Date of purcahse/income:" />
 		<TextArea fx:id="textAreaComment" layoutX="715.0" layoutY="57.0" prefHeight="25.0" prefWidth="282.0">
 			<tooltip>
