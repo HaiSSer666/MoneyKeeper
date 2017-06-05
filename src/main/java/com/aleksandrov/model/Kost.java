@@ -1,6 +1,7 @@
 package com.aleksandrov.model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Kost {
@@ -8,6 +9,7 @@ public class Kost {
 	public String category;
 	SpendType spendType;
 	public Date creationDate;
+	public LocalDateTime testCreationDate;
 	public LocalDate dateOfPurchaseOrIncome;
 	public String comment; 
 	
@@ -17,6 +19,7 @@ public class Kost {
 		this.spendType=spendType;
 		this.dateOfPurchaseOrIncome=dateOfPurchaseOrIncome;
 		this.creationDate=new Date();
+		this.testCreationDate=LocalDateTime.now();
 	}
 
 	public String getCategory() {
@@ -45,5 +48,9 @@ public class Kost {
 
 	public LocalDate getDateOfPurchaseOrIncome() {
 		return dateOfPurchaseOrIncome;
+	}
+
+	public LocalDateTime getTestCreationDate() {
+		return testCreationDate;
 	}
 }
