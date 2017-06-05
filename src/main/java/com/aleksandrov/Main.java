@@ -26,7 +26,7 @@ public class Main extends Application {
         try {
         	// «агружаем корневой макет из fxml файла.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("controller/GUI.fxml"));//мен€ть на view/GUI.fxml при смене пакета. не затупи, бокопор ебаный
+            loader.setLocation(Main.class.getResource("view/GUI.fxml"));//мен€ть на view/GUI.fxml при смене пакета. не затупи, бокопор ебаный
             AnchorPane GUI = (AnchorPane) loader.load();
             
             // ќтображаем сцену
