@@ -83,12 +83,12 @@ public class MainController {
 	}
 	/*--------------------------------------------Buttons-------------------------------------------------------------------------------*/
 	@FXML
-	public void handleAddButton() {
+	public void handleAddButton() {	
 		try{			
 			Kost kost;
 			String currentCategory = textFieldCategory.getText();				
 			double currentAmount = Double.parseDouble(textFieldSum.getText());
-			String currentMonth = String.valueOf(datePicker.getValue().getMonth());
+			String currentMonth = datePicker.getValue().getMonth().toString();
 			if (currentAmount<0){
 				Alert outputWindow = new Alert(AlertType.WARNING, "Sum must be positive! Please correct your data.");
 				outputWindow.showAndWait();
