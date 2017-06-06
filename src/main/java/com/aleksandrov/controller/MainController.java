@@ -1,5 +1,6 @@
 package com.aleksandrov.controller;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 /**
@@ -8,6 +9,7 @@ import java.time.LocalDate;
  */
 
 import com.aleksandrov.Main;
+import com.aleksandrov.dao.KostDao;
 import com.aleksandrov.model.Kost;
 import com.aleksandrov.model.SpendType;
 import javafx.beans.binding.BooleanBinding;
@@ -22,6 +24,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 public class MainController {	
+	//dao
+	KostDao kostDao = new KostDao();
+	
 	//links to sub controllers
 	@FXML public MenuViewController menuViewController;
 	@FXML public KostsTableViewController kostsTableViewController;
@@ -113,6 +118,13 @@ public class MainController {
 				statusBarController.updateLabel(totalAmountKost, totalAmountGain);
 				handleCancelButton();	
 				kostsBarChartController.getSeriesTotalDifference().getData().add(new javafx.scene.chart.XYChart.Data<String, Double>(currentMonth, totalAmountGain-totalAmountKost));
+				
+				try {
+					kostDao.saveKost(kost);
+				} catch (SQLException e) {
+					System.out.println("Impossible to save "+kost.getCategory()+" to database.");
+					e.printStackTrace();
+				}
 			}		
 		}
 
