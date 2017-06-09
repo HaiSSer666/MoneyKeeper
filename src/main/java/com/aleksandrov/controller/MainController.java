@@ -55,7 +55,8 @@ public class MainController {
 	@FXML Button cancelButton;
 
 	//date picker
-	@FXML DatePicker datePicker;
+	@FXML
+	public DatePicker datePicker;
 	/*--------------------------------------getters-------------------------------------------------------------------------------------*/	
 	public double getTotalAmountKost() {
 		return totalAmountKost;
@@ -100,7 +101,7 @@ public class MainController {
 				return;
 			}	else {
 				if(radioKost.isSelected()){
-					kost = new Kost(currentAmount, currentCategory, SpendType.KOST, datePicker.getValue());
+					kost = new Kost(currentAmount, currentCategory, SpendType.KOST, datePicker.getValue(), textAreaComment.getText());
 					totalAmountKost+=currentAmount;
 					kostsPieChartController.updatePieChartData(kost.getCategory(), kost.getAmount());
 					kostsBarChartController.getSeriesTotalKosts().getData().add(new XYChart.Data<String, Double>(currentMonth, totalAmountKost));
@@ -109,23 +110,22 @@ public class MainController {
 					//pieChartSection.nameProperty().bind(Bindings.concat(pieChartSection.getName(), " ", pieChartSection.pieValueProperty(), " ˆ"));
 				}  
 				else {
-					kost = new Kost(currentAmount, currentCategory, SpendType.GAIN, datePicker.getValue());
+					kost = new Kost(currentAmount, currentCategory, SpendType.GAIN, datePicker.getValue(), textAreaComment.getText());
 					totalAmountGain+=currentAmount;
 					kostsBarChartController.getSeriesTotalGains().getData().add(new XYChart.Data<String, Double>(currentMonth, totalAmountGain));
 				}
-				kost.setComment(textAreaComment.getText());
 				kostsTableViewController.kostTableData.add(kost);
 				statusBarController.updateLabel(totalAmountKost, totalAmountGain);
 				handleCancelButton();	
 				kostsBarChartController.getSeriesTotalDifference().getData().add(new javafx.scene.chart.XYChart.Data<String, Double>(currentMonth, totalAmountGain-totalAmountKost));
 				
 				try {
-					kostDao.saveKost(kost);
+					kostDao.insertKost(kost);
 				} catch (SQLException e) {
-					System.out.println("Impossible to save "+kost.getCategory()+" to database.");
 					e.printStackTrace();
 				}
-			}		
+				
+			}	
 		}
 
 		catch (NumberFormatException e1) {
@@ -133,7 +133,7 @@ public class MainController {
 			outputWindow.showAndWait();
 		}	
 	}
-
+	
 	@FXML
 	public void handleCancelButton() {
 		textFieldCategory.clear();
@@ -162,14 +162,16 @@ public class MainController {
 		BooleanBinding bb = new BooleanBinding() {			
 			{
 				super.bind(textFieldCategory.textProperty(),
-						textFieldSum.textProperty()
+						textFieldSum.textProperty(),
+						textAreaComment.textProperty()
 						);
 			}
 
 			@Override
 			protected boolean computeValue() {
 				return (textFieldCategory.getText().isEmpty()
-						|| textFieldSum.getText().isEmpty());
+						|| textFieldSum.getText().isEmpty()
+						|| textAreaComment.getText().isEmpty());
 			}
 		};
 		addButton.disableProperty().bind(bb);

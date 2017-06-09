@@ -1,6 +1,9 @@
 package com.aleksandrov.controller;
 
+import java.sql.SQLException;
 import java.util.Optional;
+
+import com.aleksandrov.dao.KostDao;
 import com.aleksandrov.model.Kost;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -20,6 +23,7 @@ import javafx.scene.control.Alert.AlertType;
 
 public class MenuViewController {
 	public MainController guiController;
+	KostDao kostDao = new KostDao();
 	
 	//menu items
 	@FXML MenuItem aboutItem;
@@ -90,6 +94,12 @@ public class MenuViewController {
 		else{
 			showEmptyTableInfo();
 		}
+		
+		try {
+			kostDao.deleteDbKost();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@FXML
@@ -100,7 +110,12 @@ public class MenuViewController {
 
 	@FXML
 	public void handleExitItem(){
-		guiController.main.primaryStage.close();
+		try {
+			kostDao.CloseDB();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		guiController.main.primaryStage.close();	
 	}
 	
 	public void showEmptyTableInfo(){

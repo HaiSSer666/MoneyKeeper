@@ -1,7 +1,7 @@
 package com.aleksandrov.controller;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import com.aleksandrov.dao.KostDao;
 import com.aleksandrov.model.Kost;
 import com.aleksandrov.model.SpendType;
 import javafx.collections.FXCollections;
@@ -13,9 +13,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 public class KostsTableViewController {
 	public MainController guiController;
+	KostDao kostDao = new KostDao();
 	
 	//lists
-	@FXML ObservableList<Kost> kostTableData = FXCollections.observableArrayList();
+	@FXML
+	public ObservableList<Kost> kostTableData = FXCollections.observableArrayList();
 	
 	//table view and columns
 	@FXML TableView<Kost> tableOfKosts;
@@ -23,7 +25,7 @@ public class KostsTableViewController {
 	@FXML TableColumn<Kost, String> columnCategory;
 	@FXML TableColumn<Kost, SpendType> columnType;
 	@FXML TableColumn<Kost, LocalDate> columnDateOfPurchaseOrIncome;
-	@FXML TableColumn<Kost, LocalDateTime> columnDate;
+	@FXML TableColumn<Kost, String> columnDate;
 	@FXML TableColumn<Kost, String> columnComment;
 	
 	//link to main controller
@@ -33,12 +35,13 @@ public class KostsTableViewController {
 	
 	@FXML
 	private void initialize() {		
+		kostTableData.addAll(kostDao.getAllKosts());
 		columnAmount.setCellValueFactory(new PropertyValueFactory<Kost, Double>("amount"));	
 		columnCategory.setCellValueFactory(new PropertyValueFactory<Kost, String>("category"));		
 		columnType.setCellValueFactory(new PropertyValueFactory<Kost, SpendType>("spendType"));	
 		columnDateOfPurchaseOrIncome.setCellValueFactory(new PropertyValueFactory<Kost, LocalDate>("dateOfPurchaseOrIncome"));
-		columnDate.setCellValueFactory(new PropertyValueFactory<Kost, LocalDateTime>("testCreationDate"));
+		columnDate.setCellValueFactory(new PropertyValueFactory<Kost, String>("creationDate"));	
 		columnComment.setCellValueFactory(new PropertyValueFactory<Kost, String>("comment"));
-		tableOfKosts.setItems(kostTableData);	
+		tableOfKosts.setItems(kostTableData);
 	}
 }
