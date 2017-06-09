@@ -29,18 +29,19 @@ public class KostDao {
 			{
 				float amount = resSet.getFloat("amount");
 				String  category = resSet.getString("category");
-				String  spendType = resSet.getString("spendType");
+				String  dbSppendType = resSet.getString("spendType");
 				String  comment = resSet.getString("comment");
 				String  dateStamp = resSet.getString("dateOfPurchaseOrIncome");//костыль?
 			    LocalDate dateOfPurchaseOrIncome = LocalDate.parse(dateStamp);
-				SpendType spendType2;
-				if(spendType==SpendType.KOST.toString()){
-					spendType2=SpendType.KOST;
+				SpendType spendType;
+				if(dbSppendType.equals("KOST")){
+					spendType=SpendType.KOST;
 				}
 				else{
-					spendType2=SpendType.GAIN;
+					spendType=SpendType.GAIN;
 				}
-				kosts.add(new Kost(amount, category, spendType2, dateOfPurchaseOrIncome, comment)); 
+				Kost kost = new Kost(amount, category, spendType, dateOfPurchaseOrIncome, comment);
+				kosts.add(kost); 
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
