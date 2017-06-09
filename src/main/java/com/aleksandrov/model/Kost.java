@@ -2,8 +2,7 @@ package com.aleksandrov.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
-import com.aleksandrov.utils.DateFormatter;
+import com.aleksandrov.utils.LocalDateTimeFormatter;
 
 public class Kost {
 	public double amount;
@@ -18,7 +17,7 @@ public class Kost {
 		this.category=category;
 		this.spendType=spendType;
 		this.dateOfPurchaseOrIncome=dateOfPurchaseOrIncome;
-		this.creationDate=DateFormatter.formateDate(LocalDateTime.now());
+		this.creationDate=LocalDateTimeFormatter.formateDate(LocalDateTime.now());
 		this.comment=comment;
 	}
 
