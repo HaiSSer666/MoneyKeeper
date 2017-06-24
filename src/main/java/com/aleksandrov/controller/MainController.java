@@ -1,13 +1,12 @@
 package com.aleksandrov.controller;
 
-import java.sql.SQLException;
-import java.time.LocalDate;
-
 /**
  * main GUI controller
  * Author Oleksii A.
  */
 
+import java.sql.SQLException;
+import java.time.LocalDate;
 import com.aleksandrov.Main;
 import com.aleksandrov.dao.KostDao;
 import com.aleksandrov.model.Kost;
@@ -78,6 +77,11 @@ public class MainController {
 		kostsBarChartController.setGuiController(this);
 		statusBarController.setGuiController(this);
 
+		//restoting data
+		restoreTotalKostsAndGains();
+		//System.out.println(totalAmountKost);
+		//System.out.println(totalAmountGain);
+		
 		//conditions
 		enableCancelButton();
 		enableAddButton();
@@ -87,6 +91,7 @@ public class MainController {
 	public void setMainApp(Main mainApp) {
 		this.main = mainApp;
 	}
+
 	/*--------------------------------------------Buttons-------------------------------------------------------------------------------*/
 	@FXML
 	public void handleAddButton() {
@@ -156,6 +161,22 @@ public class MainController {
 	public void resetTotalAmount() {
 		totalAmountGain = 0.0;
 		totalAmountKost = 0.0;
+	}
+	
+	public void restoreTotalKostsAndGains() {
+		kostDao.getAllKosts().forEach(kost -> {
+			if(kost.getSpendType()==SpendType.KOST){
+				totalAmountKost+=kost.getAmount();
+			}
+			else
+				totalAmountGain+=kost.getAmount();
+			statusBarController.updateLabel(totalAmountKost, totalAmountGain);
+			
+			System.out.println("kost "+totalAmountKost);
+			System.out.println("gain "+totalAmountGain);
+			System.out.println("diff "+(totalAmountGain-totalAmountKost));
+			System.out.println();
+		});
 	}
 	/*----------------------------Buttons enable rules -------------------------------------------------------------------------------------*/
 	public void enableAddButton() {
