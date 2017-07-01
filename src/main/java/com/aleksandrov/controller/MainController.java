@@ -23,9 +23,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 public class MainController {	
-	//dao
+	//link to dao
 	KostDao kostDao = new KostDao();
-	
+
 	//links to sub controllers
 	@FXML public MenuViewController menuViewController;
 	@FXML public KostsTableViewController kostsTableViewController;
@@ -56,20 +56,21 @@ public class MainController {
 	//date picker
 	@FXML
 	public DatePicker datePicker;
-	/*--------------------------------------getters-------------------------------------------------------------------------------------*/	
-	public double getTotalAmountKost() {
-		return totalAmountKost;
-	}
-
-	public double getTotalAmountGain() {
-		return totalAmountGain;
-	}
 	/*--------------------------------------Start-up methods----------------------------------------------------------------------------*/		
 	public MainController() {
 	}
 
 	@FXML
 	private void initialize() {	
+		kostDao.getAllKosts().forEach(kost -> {
+			kost.getCategory();
+		});
+		
+		//restoting data with dao
+		totalAmountKost = kostDao.getTotalAmount(SpendType.KOST);
+		totalAmountGain = kostDao.getTotalAmount(SpendType.GAIN);
+		statusBarController.updateLabel(totalAmountKost, totalAmountGain);
+		
 		//loading sub controllers
 		menuViewController.setGuiController(this);
 		kostsTableViewController.setGuiController(this);
@@ -77,21 +78,23 @@ public class MainController {
 		kostsBarChartController.setGuiController(this);
 		statusBarController.setGuiController(this);
 
-		//restoting data
-		restoreTotalKostsAndGains();
-		//System.out.println(totalAmountKost);
-		//System.out.println(totalAmountGain);
-		
-		//conditions
+		//enable conditions
 		enableCancelButton();
 		enableAddButton();
 		datePicker.setValue(LocalDate.now());
+		
+		kostDao.getListOfPieChartKosts().forEach(kost -> System.out.println(kost));
+		
+		//System.out.println(kostDao.getListOfPieChartKosts());
+		/*kostsPieChartController.getPieChartData().forEach(data -> {
+			System.out.println(data.getName());
+			System.out.println(data.getPieValue());
+		});*/
 	}
 
 	public void setMainApp(Main mainApp) {
 		this.main = mainApp;
 	}
-
 	/*--------------------------------------------Buttons-------------------------------------------------------------------------------*/
 	@FXML
 	public void handleAddButton() {
@@ -107,7 +110,7 @@ public class MainController {
 			}	else {
 				if(radioKost.isSelected()){
 					kost = new Kost(currentAmount, currentCategory, SpendType.KOST, datePicker.getValue(), textAreaComment.getText());
-					totalAmountKost+=currentAmount;
+					totalAmountKost = kostDao.getTotalAmount(SpendType.KOST)+currentAmount;
 					kostsPieChartController.updatePieChartData(kost.getCategory(), kost.getAmount());
 					kostsBarChartController.getSeriesTotalKosts().getData().add(new XYChart.Data<String, Double>(currentMonth, totalAmountKost));
 					//adds euro sign to label of pie chart sector (add addEuroSign) TODO
@@ -116,29 +119,27 @@ public class MainController {
 				}  
 				else {
 					kost = new Kost(currentAmount, currentCategory, SpendType.GAIN, datePicker.getValue(), textAreaComment.getText());
-					totalAmountGain+=currentAmount;
+					totalAmountGain = kostDao.getTotalAmount(SpendType.GAIN)+currentAmount;
 					kostsBarChartController.getSeriesTotalGains().getData().add(new XYChart.Data<String, Double>(currentMonth, totalAmountGain));
 				}
 				kostsTableViewController.kostTableData.add(kost);
 				statusBarController.updateLabel(totalAmountKost, totalAmountGain);
 				handleCancelButton();	
 				kostsBarChartController.getSeriesTotalDifference().getData().add(new javafx.scene.chart.XYChart.Data<String, Double>(currentMonth, totalAmountGain-totalAmountKost));
-				
 				try {
 					kostDao.insertKost(kost);
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
-				
+
 			}	
 		}
-
 		catch (NumberFormatException e1) {
 			Alert outputWindow = new Alert(AlertType.WARNING, "Sum must be a number! Please correct your data.");
 			outputWindow.showAndWait();
 		}	
 	}
-	
+
 	@FXML
 	public void handleCancelButton() {
 		textFieldCategory.clear();
@@ -146,37 +147,6 @@ public class MainController {
 		textAreaComment.clear();
 		radioKost.setSelected(true);
 		datePicker.setValue(LocalDate.now());
-	}
-	/*----------------------------------------Utils-----------------------------------------------------------------------------------------*/	
-	public void evaluateTotalAmount(Kost kost) {
-		double currentAmount = kost.getAmount();
-		if(kost.getSpendType()==SpendType.KOST){
-			totalAmountKost=totalAmountKost-currentAmount; 
-		}
-		else{
-			totalAmountGain=totalAmountGain-currentAmount;  
-		}
-	}
-
-	public void resetTotalAmount() {
-		totalAmountGain = 0.0;
-		totalAmountKost = 0.0;
-	}
-	
-	public void restoreTotalKostsAndGains() {
-		kostDao.getAllKosts().forEach(kost -> {
-			if(kost.getSpendType()==SpendType.KOST){
-				totalAmountKost+=kost.getAmount();
-			}
-			else
-				totalAmountGain+=kost.getAmount();
-			statusBarController.updateLabel(totalAmountKost, totalAmountGain);
-			
-			System.out.println("kost "+totalAmountKost);
-			System.out.println("gain "+totalAmountGain);
-			System.out.println("diff "+(totalAmountGain-totalAmountKost));
-			System.out.println();
-		});
 	}
 	/*----------------------------Buttons enable rules -------------------------------------------------------------------------------------*/
 	public void enableAddButton() {
