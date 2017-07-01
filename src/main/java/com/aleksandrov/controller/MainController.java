@@ -83,8 +83,7 @@ public class MainController {
 		enableAddButton();
 		datePicker.setValue(LocalDate.now());
 		
-		kostDao.getListOfPieChartKosts().forEach(kost -> System.out.println(kost));
-		
+		//kostDao.getListOfPieChartKosts().forEach(kost -> System.out.println(kost));	
 		//System.out.println(kostDao.getListOfPieChartKosts());
 		/*kostsPieChartController.getPieChartData().forEach(data -> {
 			System.out.println(data.getName());
@@ -103,6 +102,8 @@ public class MainController {
 			String currentCategory = textFieldCategory.getText();				
 			double currentAmount = Double.parseDouble(textFieldSum.getText());
 			String currentMonth = String.valueOf(datePicker.getValue().getMonth());
+			double totalAmountKost = kostDao.getTotalAmount(SpendType.KOST);
+			double totalAmountGain = kostDao.getTotalAmount(SpendType.GAIN);
 			if (currentAmount<0){
 				Alert outputWindow = new Alert(AlertType.WARNING, "Sum must be positive! Please correct your data.");
 				outputWindow.showAndWait();
@@ -110,7 +111,7 @@ public class MainController {
 			}	else {
 				if(radioKost.isSelected()){
 					kost = new Kost(currentAmount, currentCategory, SpendType.KOST, datePicker.getValue(), textAreaComment.getText());
-					totalAmountKost = kostDao.getTotalAmount(SpendType.KOST)+currentAmount;
+					totalAmountKost += currentAmount;
 					kostsPieChartController.updatePieChartData(kost.getCategory(), kost.getAmount());
 					kostsBarChartController.getSeriesTotalKosts().getData().add(new XYChart.Data<String, Double>(currentMonth, totalAmountKost));
 					//adds euro sign to label of pie chart sector (add addEuroSign) TODO
@@ -119,7 +120,7 @@ public class MainController {
 				}  
 				else {
 					kost = new Kost(currentAmount, currentCategory, SpendType.GAIN, datePicker.getValue(), textAreaComment.getText());
-					totalAmountGain = kostDao.getTotalAmount(SpendType.GAIN)+currentAmount;
+					totalAmountGain += currentAmount;
 					kostsBarChartController.getSeriesTotalGains().getData().add(new XYChart.Data<String, Double>(currentMonth, totalAmountGain));
 				}
 				kostsTableViewController.kostTableData.add(kost);
