@@ -88,3 +88,8 @@ public class KostDao {
 		System.out.println("Соединения закрыты");
 	   }
 }
+
+/**
+ * 
+ * 
+ */
