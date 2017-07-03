@@ -7,6 +7,8 @@ package com.aleksandrov.controller;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.Month;
+
 import com.aleksandrov.Main;
 import com.aleksandrov.dao.KostDao;
 import com.aleksandrov.model.Kost;
@@ -62,15 +64,21 @@ public class MainController {
 
 	@FXML
 	private void initialize() {	
-		kostDao.getAllKosts().forEach(kost -> {
+		/*kostDao.getAllKosts().forEach(kost -> {
 			kost.getCategory();
 		});
-		
+		for (Kost data : kostDao.getAllKosts()){
+			System.out.println(data.getCategory());
+		}*/
+		/*System.out.println(kostDao.getTotalAmount(SpendType.KOST));
+		System.out.println();
+		System.out.println(kostDao.getTotalAmount(SpendType.KOST, Month.AUGUST));*/
+
 		//restoting data with dao
 		totalAmountKost = kostDao.getTotalAmount(SpendType.KOST);
 		totalAmountGain = kostDao.getTotalAmount(SpendType.GAIN);
 		statusBarController.updateLabel(totalAmountKost, totalAmountGain);
-		
+
 		//loading sub controllers
 		menuViewController.setGuiController(this);
 		kostsTableViewController.setGuiController(this);
@@ -82,7 +90,7 @@ public class MainController {
 		enableCancelButton();
 		enableAddButton();
 		datePicker.setValue(LocalDate.now());
-		
+
 		//kostDao.getListOfPieChartKosts().forEach(kost -> System.out.println(kost));	
 		//System.out.println(kostDao.getListOfPieChartKosts());
 		/*kostsPieChartController.getPieChartData().forEach(data -> {
@@ -102,8 +110,11 @@ public class MainController {
 			String currentCategory = textFieldCategory.getText();				
 			double currentAmount = Double.parseDouble(textFieldSum.getText());
 			String currentMonth = String.valueOf(datePicker.getValue().getMonth());
-			double totalAmountKost = kostDao.getTotalAmount(SpendType.KOST);
-			double totalAmountGain = kostDao.getTotalAmount(SpendType.GAIN);
+			
+			Month month = datePicker.getValue().getMonth();//test
+			double totalMonthlyKost = kostDao.getTotalAmount(SpendType.KOST, month);//test
+			double totalMonthlyGain = kostDao.getTotalAmount(SpendType.GAIN, month);//test
+			
 			if (currentAmount<0){
 				Alert outputWindow = new Alert(AlertType.WARNING, "Sum must be positive! Please correct your data.");
 				outputWindow.showAndWait();
@@ -111,28 +122,30 @@ public class MainController {
 			}	else {
 				if(radioKost.isSelected()){
 					kost = new Kost(currentAmount, currentCategory, SpendType.KOST, datePicker.getValue(), textAreaComment.getText());
-					totalAmountKost += currentAmount;
+					totalMonthlyKost += currentAmount;//test
 					kostsPieChartController.updatePieChartData(kost.getCategory(), kost.getAmount());
-					kostsBarChartController.getSeriesTotalKosts().getData().add(new XYChart.Data<String, Double>(currentMonth, totalAmountKost));
+					kostsBarChartController.getSeriesTotalKosts().getData().add(new XYChart.Data<String, Double>(currentMonth, totalMonthlyKost));//test
 					//adds euro sign to label of pie chart sector (add addEuroSign) TODO
 					//Data pieChartSection = new PieChart.Data (kost.getCategory(), kost.getAmount()); 
 					//pieChartSection.nameProperty().bind(Bindings.concat(pieChartSection.getName(), " ", pieChartSection.pieValueProperty(), " ˆ"));
 				}  
 				else {
 					kost = new Kost(currentAmount, currentCategory, SpendType.GAIN, datePicker.getValue(), textAreaComment.getText());
-					totalAmountGain += currentAmount;
-					kostsBarChartController.getSeriesTotalGains().getData().add(new XYChart.Data<String, Double>(currentMonth, totalAmountGain));
+					totalMonthlyGain += currentAmount;//test
+					kostsBarChartController.getSeriesTotalGains().getData().add(new XYChart.Data<String, Double>(currentMonth, totalMonthlyGain));//test
 				}
-				kostsTableViewController.kostTableData.add(kost);
-				statusBarController.updateLabel(totalAmountKost, totalAmountGain);
-				handleCancelButton();	
-				kostsBarChartController.getSeriesTotalDifference().getData().add(new javafx.scene.chart.XYChart.Data<String, Double>(currentMonth, totalAmountGain-totalAmountKost));
 				try {
 					kostDao.insertKost(kost);
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
-
+				kostsTableViewController.kostTableData.add(kost);
+				double totalAmountKost = kostDao.getTotalAmount(SpendType.KOST);
+				double totalAmountGain = kostDao.getTotalAmount(SpendType.GAIN);
+				statusBarController.updateLabel(totalAmountKost, totalAmountGain);
+				handleCancelButton();	
+				kostsBarChartController.getSeriesTotalDifference().getData().
+				add(new javafx.scene.chart.XYChart.Data<String, Double>(currentMonth, totalMonthlyGain-totalMonthlyKost));//test
 			}	
 		}
 		catch (NumberFormatException e1) {

@@ -1,5 +1,6 @@
 package com.aleksandrov.controller;
 
+import java.time.Month;
 import java.util.Arrays;
 import com.aleksandrov.dao.KostDao;
 import com.aleksandrov.model.Kost;
@@ -78,30 +79,39 @@ public class KostsBarChartController {
 		barChart.setTitle("Chart of total balance");
 		barChart.getData().addAll(seriesTotalKosts, seriesTotalGains, seriesTotalDifference);
 		monthNames.addAll(Arrays.asList(monthsOfYear));
-		xAxis.setCategories(monthNames);     
+		xAxis.setCategories(monthNames); 
+		yAxis.setAutoRanging(true);
 	}
 
 	public void updateBarChartData(Kost kost){
-		double totalAmountKost = kostDao.getTotalAmount(SpendType.KOST);
-		double totalAmountGain = kostDao.getTotalAmount(SpendType.GAIN);
-		String currentMonth = String.valueOf(guiController.datePicker.getValue().getMonth());
-		seriesTotalKosts.getData().add(new XYChart.Data<String, Double>(currentMonth, totalAmountKost));
-		seriesTotalGains.getData().add(new XYChart.Data<String, Double>(currentMonth, totalAmountGain));
-		seriesTotalDifference.getData().add(new javafx.scene.chart.XYChart.Data<String, Double>(currentMonth, totalAmountGain-totalAmountKost));
+		//double totalAmountKost = kostDao.getTotalAmount(SpendType.KOST);
+		//double totalAmountGain = kostDao.getTotalAmount(SpendType.GAIN);
+		//String currentMonth = String.valueOf(guiController.datePicker.getValue().getMonth());
+		
+		Month month = kost.getDateOfPurchaseOrIncome().getMonth();
+		String currentMonth = String.valueOf(kost.getDateOfPurchaseOrIncome().getMonth());
+		double totalMonthlyKost = kostDao.getTotalAmount(SpendType.KOST, month);
+		double totalMonthlyGain = kostDao.getTotalAmount(SpendType.GAIN, month);
+				
+		seriesTotalKosts.getData().add(new XYChart.Data<String, Double>(currentMonth, totalMonthlyKost));
+		seriesTotalGains.getData().add(new XYChart.Data<String, Double>(currentMonth, totalMonthlyGain));
+		seriesTotalDifference.getData().add(new javafx.scene.chart.XYChart.Data<String, Double>(currentMonth, totalMonthlyGain-totalMonthlyKost));
 	}
 
+	//test
 	public void restoreBarChart() {
-		double totalAmountKost = kostDao.getTotalAmount(SpendType.KOST);
-		double totalAmountGain = kostDao.getTotalAmount(SpendType.GAIN);
 		kostDao.getAllKosts().forEach(kost -> {
-			String currentMonth = kost.getDateOfPurchaseOrIncome().getMonth().toString();
+			Month month = kost.getDateOfPurchaseOrIncome().getMonth();
+			String currentMonth = String.valueOf(kost.getDateOfPurchaseOrIncome().getMonth());
+			double totalMonthlyKost = kostDao.getTotalAmount(SpendType.KOST, month);
+			double totalMonthlyGain = kostDao.getTotalAmount(SpendType.GAIN, month);
 			if(kost.getSpendType()==SpendType.KOST){
-				seriesTotalKosts.getData().add(new XYChart.Data<String, Double>(currentMonth, totalAmountKost));
+				seriesTotalKosts.getData().add(new XYChart.Data<String, Double>(currentMonth, totalMonthlyKost));
 			}
 			else{
-				seriesTotalGains.getData().add(new XYChart.Data<String, Double>(currentMonth, totalAmountGain));	
+				seriesTotalGains.getData().add(new XYChart.Data<String, Double>(currentMonth, totalMonthlyGain));	
 			}
-			seriesTotalDifference.getData().add(new javafx.scene.chart.XYChart.Data<String, Double>(currentMonth, totalAmountGain-totalAmountKost));
+			seriesTotalDifference.getData().add(new javafx.scene.chart.XYChart.Data<String, Double>(currentMonth, totalMonthlyGain-totalMonthlyKost));
 		});
 	}
 }
