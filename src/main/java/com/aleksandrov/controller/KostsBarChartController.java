@@ -71,7 +71,6 @@ public class KostsBarChartController {
 	@SuppressWarnings("unchecked")
 	@FXML
 	private void initialize() {	
-		//show total kosts/gains and not for every month separately - TODO
 		restoreBarChart();
 		seriesTotalKosts.setName("Total kosts");
 		seriesTotalGains.setName("Total gains");
@@ -84,21 +83,15 @@ public class KostsBarChartController {
 	}
 
 	public void updateBarChartData(Kost kost){
-		//double totalAmountKost = kostDao.getTotalAmount(SpendType.KOST);
-		//double totalAmountGain = kostDao.getTotalAmount(SpendType.GAIN);
-		//String currentMonth = String.valueOf(guiController.datePicker.getValue().getMonth());
-		
 		Month month = kost.getDateOfPurchaseOrIncome().getMonth();
 		String currentMonth = String.valueOf(kost.getDateOfPurchaseOrIncome().getMonth());
 		double totalMonthlyKost = kostDao.getTotalAmount(SpendType.KOST, month);
 		double totalMonthlyGain = kostDao.getTotalAmount(SpendType.GAIN, month);
-				
 		seriesTotalKosts.getData().add(new XYChart.Data<String, Double>(currentMonth, totalMonthlyKost));
 		seriesTotalGains.getData().add(new XYChart.Data<String, Double>(currentMonth, totalMonthlyGain));
 		seriesTotalDifference.getData().add(new javafx.scene.chart.XYChart.Data<String, Double>(currentMonth, totalMonthlyGain-totalMonthlyKost));
 	}
 
-	//test
 	public void restoreBarChart() {
 		kostDao.getAllKosts().forEach(kost -> {
 			Month month = kost.getDateOfPurchaseOrIncome().getMonth();
