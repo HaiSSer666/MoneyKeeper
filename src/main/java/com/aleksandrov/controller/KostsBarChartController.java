@@ -62,6 +62,10 @@ public class KostsBarChartController {
 	public ObservableList<String> getMonthNames() {
 		return monthNames;
 	}
+	
+	public String[] getMonthsOfYear() {
+		return monthsOfYear;
+	}
 
 	//link to main controller
 	public void setGuiController(MainController guiController) {
