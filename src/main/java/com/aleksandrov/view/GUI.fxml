@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Pagination?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -11,8 +13,9 @@
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 
-<AnchorPane id="mainApp_ID" prefHeight="715.0" prefWidth="1110.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aleksandrov.controller.MainController">
+<AnchorPane id="mainApp_ID" prefHeight="785.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aleksandrov.controller.MainController">
 	<children>
 		<fx:include fx:id="menuView" source="MenuView.fxml" />
 		<Button fx:id="addButton" disable="true" layoutX="1029.0" layoutY="34.0" mnemonicParsing="false" onAction="#handleAddButton" prefHeight="25.0" prefWidth="70.0" text="Add " />
@@ -44,7 +47,7 @@
 		</RadioButton>
 		<RadioButton fx:id="radioGain" layoutX="626.0" layoutY="75.0" mnemonicParsing="false" text="Gain" toggleGroup="$typeOfKost" />
 		<Label layoutX="551.0" layoutY="38.0" prefHeight="17.0" prefWidth="149.0" text="Choose type of the sum:" />
-		<TabPane layoutY="110.0" prefHeight="577.0" prefWidth="1120.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="38.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="110.0">
+		<TabPane layoutY="110.0" prefHeight="577.0" prefWidth="1120.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="110.0">
 			<tabs>
 				<Tab id="tableTab" text="Table">
 					<content>
@@ -64,5 +67,18 @@
 			</tabs>
 		</TabPane>
 		<fx:include fx:id="statusBar" layoutY="687.0" source="StatusBar.fxml" />
+      <Pagination layoutX="458.0" layoutY="708.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="458.0" AnchorPane.rightAnchor="458.0" />
+      <HBox layoutX="1143.0" layoutY="71.0" spacing="10.0">
+         <children>
+            <ComboBox fx:id="comboBoxCategory" prefWidth="130.0" />
+            <ComboBox fx:id="comboBoxMonths" prefWidth="100.0" />
+            <ComboBox fx:id="comboBoxYears" prefHeight="25.0" prefWidth="70.0" />
+         </children>
+      </HBox>
+      <Label layoutX="1142.0" layoutY="38.0" text="Category:" />
+      <Label layoutX="1283.0" layoutY="38.0" text="Month:" />
+      <Label layoutX="1392.0" layoutY="38.0" text="Year:" />
+      <Button fx:id="searchButton" layoutX="1478.0" layoutY="34.0" mnemonicParsing="false" onAction="#handleSearchButton" prefHeight="25.0" prefWidth="106.0" text="Search" />
+      <TextField fx:id="textFieldResult" editable="false" layoutX="1480.0" layoutY="71.0" prefHeight="25.0" prefWidth="106.0" />
 	</children>
 </AnchorPane>
