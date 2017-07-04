@@ -6,6 +6,7 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 import com.aleksandrov.model.Kost;
@@ -72,14 +73,10 @@ public class KostDao {
 		return totalAmount;
 	}
 
-
-	public ArrayList<String> getListOfPieChartKosts() {
-		ArrayList<String> listOfKosts = new ArrayList<String>();
+	public HashSet<String> getListOfPieChartKosts() {
+		HashSet<String> listOfKosts = new HashSet<String>();
 		for(Kost kost : getAllKosts()){
-			if(kost.getSpendType()==SpendType.KOST){
-				String category = kost.getCategory();
-				listOfKosts.add(category);
-			}
+				listOfKosts.add(kost.getCategory());
 		}
 		return listOfKosts;
 	}
@@ -98,5 +95,19 @@ public class KostDao {
 	{
 		statement.close();
 		System.out.println("Соединения закрыты");
+	}
+	
+	//Testbereich
+	public double getTotalCategoryAmount(String category) throws SQLException{  
+		/*String query="SELECT amount FROM 'Kost' WHERE category='"+category+"'"; 
+		statement.execute(query);*/
+		double totalAmount = 0;
+		for(Kost kost : getAllKosts()){
+			if(category.equals(kost.getCategory())){
+				totalAmount+=kost.getAmount();
+				System.out.println(totalAmount);
+			}
+		}
+		return totalAmount;
 	}
 }
