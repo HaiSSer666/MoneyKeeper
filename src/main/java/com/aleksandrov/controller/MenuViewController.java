@@ -1,13 +1,22 @@
 package com.aleksandrov.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.Optional;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import com.aleksandrov.dao.KostDao;
 import com.aleksandrov.model.Kost;
 import com.aleksandrov.model.SpendType;
+import com.aleksandrov.utils.LocalDateTimeFormatter;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
+import javafx.scene.SnapshotResult;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.PieChart.Data;
@@ -16,6 +25,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.WritableImage;
 
 /**
  * separate controller for menu bar
@@ -31,6 +41,7 @@ public class MenuViewController {
 	@FXML MenuItem exitItem;
 	@FXML MenuItem deleteItem;
 	@FXML MenuItem deleteAllItem;
+	@FXML MenuItem snapshotItem;
 
 	//link to main controller
 	public void setGuiController(MainController guiController) {
@@ -58,6 +69,7 @@ public class MenuViewController {
 			double totalAmountKost = kostDao.getTotalAmount(SpendType.KOST);
 			double totalAmountGain = kostDao.getTotalAmount(SpendType.GAIN);
 			guiController.statusBarController.updateLabel(totalAmountKost, totalAmountGain);
+			guiController.setComboBoxCategory();
 			//String updateName = addEuroSign(selectedItem.getAmount(), selectedItem.getPurpose()); //selectedItem.getCategory() -> currentName if want to use addEuroSign
 			for (Data d : pieChartData)
 			{
@@ -99,6 +111,7 @@ public class MenuViewController {
 				seriesTotalDifference.getData().clear();
 				tableOfKosts.getItems().clear();
 				guiController.statusBarController.updateLabel(totalAmountKost, totalAmountGain);
+				guiController.setComboBoxCategory();
 			} 
 			else alert.close();	
 		}
@@ -126,5 +139,23 @@ public class MenuViewController {
 	public void showEmptyTableInfo(){
 		Alert infoWindow = new Alert(AlertType.INFORMATION, "Table is empty!");
 		infoWindow.showAndWait();
+	}
+	
+	@FXML
+	public void handleSnapshotItem(){
+        Scene scene = guiController.main.scene;
+		WritableImage writableImage = 
+            new WritableImage((int)scene.getWidth(), (int)scene.getHeight());
+        scene.snapshot(writableImage);
+        
+        File file = new File("Snapshot "+LocalDateTimeFormatter.formateDate(LocalDateTime.now())+".png");
+        System.out.println(LocalDateTime.now());
+        try {
+            ImageIO.write(SwingFXUtils.fromFXImage(writableImage, null), "png", file);
+            Alert infoWindow = new Alert(AlertType.INFORMATION, "Snapshot saved: " + "D:\\MoneyKeeper\\snapshots");
+    		infoWindow.showAndWait();
+        } catch (IOException ex) {
+            Logger.getLogger(SnapshotResult.class.getName()).log(Level.SEVERE, null, ex);
+        }
 	}
 }
