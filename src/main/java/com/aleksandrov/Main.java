@@ -11,21 +11,13 @@ import javafx.scene.layout.AnchorPane;
 
 public class Main extends Application {
 	public Stage primaryStage;
-	
+	public Scene scene;
 	@Override
 	public void start(Stage primaryStage) {
+		primaryStage.setMaximized(true);
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("MoneyKeeper");
 		this.primaryStage.getIcons().add(new Image("file:src/main/resources/images/piggybank-512.png"));
-		/*
-		 * if you want to create a new table
-		 * try {
-			connection.connect();
-			connection.createStatement();
-			connection.createKostTable();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}*/
 		GUILoader();  
 	}
 
@@ -37,7 +29,7 @@ public class Main extends Application {
 			AnchorPane GUI = (AnchorPane) loader.load();
 
 			// Отображаем сцену
-			Scene scene = new Scene(GUI);
+			scene = new Scene(GUI);
 			primaryStage.setScene(scene);
 			primaryStage.show();
 			MainController controller = loader.getController();
