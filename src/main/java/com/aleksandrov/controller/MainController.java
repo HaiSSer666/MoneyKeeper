@@ -13,7 +13,6 @@ import com.aleksandrov.Main;
 import com.aleksandrov.dao.KostDao;
 import com.aleksandrov.model.Kost;
 import com.aleksandrov.model.SpendType;
-import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -28,29 +27,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 public class MainController {	
-	@FXML ComboBox<String> comboBoxCategory;
-	@FXML ComboBox<String> comboBoxMonths;
-	@FXML ComboBox<Integer> comboBoxYears;
-	HashSet<String> listOfKosts = new HashSet<String>();
-	ObservableList<Integer> listOfYears = FXCollections.observableArrayList(
-		        2017,
-		        2018,
-		        2019
-		    );
-	@FXML TextField textFieldResult;
-	@FXML Button searchButton;
-	
-	@FXML
-	public void handleSearchButton() {
-		try {
-			double monthlyTotalCategoryAmount = kostDao.getTotalCategoryAmount(comboBoxCategory.getValue());
-			System.out.println(monthlyTotalCategoryAmount);
-			textFieldResult.setText(String.valueOf(monthlyTotalCategoryAmount)+" Euro");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-	
 	//link to dao
 	KostDao kostDao = new KostDao();
 
@@ -71,8 +47,9 @@ public class MainController {
 	//text fields
 	@FXML TextField textFieldSum;
 	@FXML TextField textFieldCategory;
+	@FXML TextField textFieldResult;
 	@FXML TextArea textAreaComment;
-
+	
 	//radio buttons
 	@FXML RadioButton radioKost;
 	@FXML RadioButton radioGain;
@@ -80,22 +57,35 @@ public class MainController {
 	//buttons
 	@FXML Button addButton;
 	@FXML Button cancelButton;
+	@FXML Button searchButton;
 
 	//date picker
-	@FXML
-	public DatePicker datePicker;
+	@FXML public DatePicker datePicker;
+	
+	//combo boxes
+	@FXML ComboBox<String> comboBoxCategory;
+	@FXML ComboBox<String> comboBoxMonths;
+	@FXML ComboBox<Integer> comboBoxYears;
+	HashSet<String> listOfKosts = new HashSet<String>();
+	ObservableList<Integer> listOfYears = FXCollections.observableArrayList(2017, 2018, 2019);
 	/*--------------------------------------Start-up methods----------------------------------------------------------------------------*/		
 	public MainController() {
 	}
 
 	@FXML
 	private void initialize() {	
-		listOfKosts = kostDao.getListOfPieChartKosts();
-		comboBoxCategory.getItems().addAll(listOfKosts);
-		comboBoxMonths.getItems().addAll(kostsBarChartController.getMonthsOfYear());
-		comboBoxYears.getItems().addAll(listOfYears);
+		//enable conditions
+		buttonsActivation();
+		datePicker.setValue(LocalDate.now());
 		
-		//restoting data with dao
+		//filling combo boxes
+		setComboBoxCategory();
+		comboBoxMonths.getItems().addAll(kostsBarChartController.getMonthsOfYear());
+		comboBoxMonths.getSelectionModel().select(String.valueOf(datePicker.getValue().getMonth()));
+		comboBoxYears.getItems().addAll(listOfYears);
+		comboBoxYears.getSelectionModel().select(new Integer(datePicker.getValue().getYear()));
+
+		//restoring data with dao
 		totalAmountKost = kostDao.getTotalAmount(SpendType.KOST);
 		totalAmountGain = kostDao.getTotalAmount(SpendType.GAIN);
 		statusBarController.updateLabel(totalAmountKost, totalAmountGain);
@@ -105,12 +95,7 @@ public class MainController {
 		kostsTableViewController.setGuiController(this);
 		kostsPieChartController.setGuiController(this);
 		kostsBarChartController.setGuiController(this);
-		statusBarController.setGuiController(this);
-
-		//enable conditions
-		enableCancelButton();
-		enableAddButton();
-		datePicker.setValue(LocalDate.now());
+		statusBarController.setGuiController(this);	
 	}
 
 	public void setMainApp(Main mainApp) {
@@ -124,10 +109,10 @@ public class MainController {
 			String currentCategory = textFieldCategory.getText();				
 			double currentAmount = Double.parseDouble(textFieldSum.getText());
 			String currentMonth = String.valueOf(datePicker.getValue().getMonth());
-			Month month = datePicker.getValue().getMonth();//test
+			Month month = datePicker.getValue().getMonth();
 			double totalMonthlyKost = kostDao.getTotalAmount(SpendType.KOST, month);
 			double totalMonthlyGain = kostDao.getTotalAmount(SpendType.GAIN, month);
-			
+
 			if (currentAmount<0){
 				Alert outputWindow = new Alert(AlertType.WARNING, "Sum must be positive! Please correct your data.");
 				outputWindow.showAndWait();
@@ -135,7 +120,7 @@ public class MainController {
 			}	else {
 				if(radioKost.isSelected()){
 					kost = new Kost(currentAmount, currentCategory, SpendType.KOST, datePicker.getValue(), textAreaComment.getText());
-					totalMonthlyKost += currentAmount;//test
+					totalMonthlyKost += currentAmount;
 					kostsPieChartController.updatePieChartData(kost.getCategory(), kost.getAmount());
 					kostsBarChartController.getSeriesTotalKosts().getData().add(new XYChart.Data<String, Double>(currentMonth, totalMonthlyKost));
 					//adds euro sign to label of pie chart sector (add addEuroSign) TODO
@@ -144,7 +129,7 @@ public class MainController {
 				}  
 				else {
 					kost = new Kost(currentAmount, currentCategory, SpendType.GAIN, datePicker.getValue(), textAreaComment.getText());
-					totalMonthlyGain += currentAmount;//test
+					totalMonthlyGain += currentAmount;
 					kostsBarChartController.getSeriesTotalGains().getData().add(new XYChart.Data<String, Double>(currentMonth, totalMonthlyGain));
 				}
 				try {
@@ -158,7 +143,8 @@ public class MainController {
 				statusBarController.updateLabel(totalAmountKost, totalAmountGain);
 				handleCancelButton();	
 				kostsBarChartController.getSeriesTotalDifference().getData().
-				add(new javafx.scene.chart.XYChart.Data<String, Double>(currentMonth, totalMonthlyGain-totalMonthlyKost));//test
+				add(new javafx.scene.chart.XYChart.Data<String, Double>(currentMonth, totalMonthlyGain-totalMonthlyKost));
+				setComboBoxCategory();
 			}	
 		}
 		catch (NumberFormatException e1) {
@@ -175,42 +161,39 @@ public class MainController {
 		radioKost.setSelected(true);
 		datePicker.setValue(LocalDate.now());
 	}
-	/*----------------------------Buttons enable rules -------------------------------------------------------------------------------------*/
-	public void enableAddButton() {
-		BooleanBinding bb = new BooleanBinding() {			
-			{
-				super.bind(textFieldCategory.textProperty(),
-						textFieldSum.textProperty(),
-						textAreaComment.textProperty()
-						);
-			}
-
-			@Override
-			protected boolean computeValue() {
-				return (textFieldCategory.getText().isEmpty()
-						|| textFieldSum.getText().isEmpty()
-						|| textAreaComment.getText().isEmpty());
-			}
-		};
-		addButton.disableProperty().bind(bb);
-	}	
-
-	public void enableCancelButton() {
-		BooleanBinding bb = new BooleanBinding() {			
-			{
-				super.bind(textFieldCategory.textProperty(),
-						textFieldSum.textProperty(),
-						textAreaComment.textProperty()
-						);
-			}
-
-			@Override
-			protected boolean computeValue() {
-				return (textFieldCategory.getText().isEmpty()
-						&& textFieldSum.getText().isEmpty()
-						&& textAreaComment.getText().isEmpty());
-			}
-		};
-		cancelButton.disableProperty().bind(bb);
+	
+	@FXML
+	public void handleSearchButton() {
+		try {
+			double monthlyTotalCategoryAmount = kostDao.getTotalCategoryAmount(comboBoxCategory.getValue(), comboBoxMonths.getValue(), comboBoxYears.getValue());
+			System.out.println(monthlyTotalCategoryAmount);
+			textFieldResult.setText(String.valueOf(monthlyTotalCategoryAmount)+" Euro");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	/*-------------------------------------Misc-------------------------------------------------------------------------------------*/
+	public void buttonsActivation(){
+		addButton.disableProperty().bind(
+				textFieldCategory.textProperty().isEmpty()
+				.or(textFieldSum.textProperty().isEmpty())
+				.or(textAreaComment.textProperty().isEmpty()));
+		cancelButton.disableProperty().bind(
+				textFieldCategory.textProperty().isEmpty()
+				.and(textFieldSum.textProperty().isEmpty())
+				.and(textAreaComment.textProperty().isEmpty()));
+		searchButton.disableProperty().bind(comboBoxCategory.valueProperty().isNull()
+				.or(comboBoxMonths.valueProperty().isNull())
+				.or(comboBoxYears.valueProperty().isNull()));
+	}
+	
+	public void setComboBoxCategory() {
+		comboBoxCategory.getItems().clear();
+		listOfKosts = kostDao.getListOfPieChartKosts();
+		comboBoxCategory.getItems().addAll(listOfKosts);
+		comboBoxCategory.getItems().sort((x, y) -> {
+			int a = x.compareTo(y);	
+			return a;
+		});
 	}
 }
