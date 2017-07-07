@@ -5,8 +5,7 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="710.0" prefWidth="1115.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aleksandrov.controller.MenuViewController"
-AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+<AnchorPane prefHeight="710.0" prefWidth="1115.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aleksandrov.controller.MenuViewController">
 	<children>
 		<MenuBar layoutY="2.0" prefHeight="20.0" prefWidth="1115.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 			<menus>
@@ -17,6 +16,7 @@ AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0
 				</Menu>
 				<Menu id="menuEdit_ID" mnemonicParsing="false" text="Edit">
 					<items>
+                  <MenuItem fx:id="snapshotItem" mnemonicParsing="false" onAction="#handleSnapshotItem" text="Snapshot" />
 						<MenuItem fx:id="deleteItem" mnemonicParsing="false" onAction="#handleDeleteMenuItem" text="Delete" />
 						<MenuItem fx:id="deleteAllItem" mnemonicParsing="false" onAction="#handleDeleteAllMenuItems" text="Delete all" />
 					</items>
