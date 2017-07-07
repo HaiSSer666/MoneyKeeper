@@ -53,7 +53,18 @@ public class KostDao {
 		return kosts;
 	}
 
+	
 	public double getTotalAmount(SpendType spendType) {
+		/*double amount = 0;
+		try {
+			String query = "SELECT SUM(amount) FROM 'Kost' WHERE spendType=\"KOST\"";
+			ResultSet resSet = statement.executeQuery(query);
+			System.out.println(resSet.toString());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}*/
+		//return amount;
+		
 		double totalAmount = 0;
 		for(Kost kost : getAllKosts()){
 			if(kost.getSpendType()==spendType){
@@ -64,6 +75,11 @@ public class KostDao {
 	}
 
 	public double getTotalAmount(SpendType spendType, Month month) {
+		//TODO sql query instead of forEach
+		/*
+		 * SELECT * FROM 'Kost' WHERE spendType="KOST" AND ...
+		 * 
+		 */
 		double totalAmount = 0;
 		for(Kost kost : getAllKosts()){
 			if(kost.getSpendType()==spendType && kost.getDateOfPurchaseOrIncome().getMonth()==month){
@@ -81,6 +97,20 @@ public class KostDao {
 		return listOfKosts;
 	}
 
+	public double getTotalCategoryAmount(String category, String month, int year) throws SQLException{  
+		double searchTotalAmount = 0;
+		for(Kost kost : getAllKosts()){
+			String searchCategory = kost.getCategory();
+			String searchMonth = String.valueOf(kost.getDateOfPurchaseOrIncome().getMonth());
+			int searchYear = kost.getDateOfPurchaseOrIncome().getYear();
+			if(category.equals(searchCategory)&&month.equals(searchMonth)&&year==searchYear){
+				searchTotalAmount+=kost.getAmount();
+				System.out.println(searchTotalAmount);
+			}
+		}
+		return searchTotalAmount;
+	}
+	
 	public void deleteKost(UUID id) throws SQLException{  
 		String query="DELETE FROM 'Kost' WHERE ID='"+id+"'"; 
 		statement.execute(query);
@@ -94,20 +124,6 @@ public class KostDao {
 	public void CloseDB() throws SQLException
 	{
 		statement.close();
-		System.out.println("Соединения закрыты");
-	}
-	
-	//Testbereich
-	public double getTotalCategoryAmount(String category) throws SQLException{  
-		/*String query="SELECT amount FROM 'Kost' WHERE category='"+category+"'"; 
-		statement.execute(query);*/
-		double totalAmount = 0;
-		for(Kost kost : getAllKosts()){
-			if(category.equals(kost.getCategory())){
-				totalAmount+=kost.getAmount();
-				System.out.println(totalAmount);
-			}
-		}
-		return totalAmount;
-	}
+		System.out.println("Connection closed");
+	}	
 }
