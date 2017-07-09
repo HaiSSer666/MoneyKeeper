@@ -1,7 +1,11 @@
 package com.aleksandrov.controller;
 
+import java.sql.SQLException;
 import java.util.Optional;
+
+import com.aleksandrov.dao.KostDao;
 import com.aleksandrov.model.Kost;
+import com.aleksandrov.model.SpendType;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;
@@ -20,7 +24,8 @@ import javafx.scene.control.Alert.AlertType;
 
 public class MenuViewController {
 	public MainController guiController;
-	
+	KostDao kostDao = new KostDao();
+
 	//menu items
 	@FXML MenuItem aboutItem;
 	@FXML MenuItem exitItem;
@@ -31,23 +36,28 @@ public class MenuViewController {
 	public void setGuiController(MainController guiController) {
 		this.guiController = guiController;
 	}
-	
+
 	@FXML
 	public void handleDeleteMenuItem(){		 
 		ObservableList<PieChart.Data> pieChartData = guiController.kostsPieChartController.getPieChartData();	
 		TableView<Kost> tableOfKosts = guiController.kostsTableViewController.tableOfKosts;
-
 		Kost selectedItem = tableOfKosts.getSelectionModel().getSelectedItem();		
+
 		if(selectedItem==null){
 			Alert infoWindow = new Alert(AlertType.INFORMATION, "Please choose item at first!");
 			infoWindow.showAndWait();
 		}
 		else{
-			tableOfKosts.getItems().remove(selectedItem);
-			guiController.evaluateTotalAmount(selectedItem);
-			guiController.statusBarController.updateLabel(guiController.getTotalAmountKost(), guiController.totalAmountGain);		
+			try {
+				kostDao.deleteKost(selectedItem.getId());			
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			tableOfKosts.getItems().remove(selectedItem);	
 			guiController.kostsBarChartController.updateBarChartData(selectedItem);
-						
+			double totalAmountKost = kostDao.getTotalAmount(SpendType.KOST);
+			double totalAmountGain = kostDao.getTotalAmount(SpendType.GAIN);
+			guiController.statusBarController.updateLabel(totalAmountKost, totalAmountGain);
 			//String updateName = addEuroSign(selectedItem.getAmount(), selectedItem.getPurpose()); //selectedItem.getCategory() -> currentName if want to use addEuroSign
 			for (Data d : pieChartData)
 			{
@@ -63,7 +73,6 @@ public class MenuViewController {
 	@FXML
 	public void handleDeleteAllMenuItems(){
 		TableView<Kost> tableOfKosts = guiController.kostsTableViewController.tableOfKosts;
-
 		XYChart.Series<String, Double> seriesTotalKosts = guiController.kostsBarChartController.getSeriesTotalKosts();
 		XYChart.Series<String, Double> seriesTotalGains = guiController.kostsBarChartController.getSeriesTotalGains();
 		XYChart.Series<String, Double> seriesTotalDifference = guiController.kostsBarChartController.getSeriesTotalDifference();
@@ -77,13 +86,19 @@ public class MenuViewController {
 
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get() == ButtonType.OK){
+				try {
+					kostDao.deleteDbKost();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				double totalAmountKost = kostDao.getTotalAmount(SpendType.KOST);
+				double totalAmountGain = kostDao.getTotalAmount(SpendType.GAIN);
 				pieChartData.clear();
 				seriesTotalKosts.getData().clear();
 				seriesTotalGains.getData().clear();
 				seriesTotalDifference.getData().clear();
 				tableOfKosts.getItems().clear();
-				guiController.resetTotalAmount();
-				guiController.statusBarController.updateLabel(guiController.getTotalAmountKost(), guiController.getTotalAmountGain());
+				guiController.statusBarController.updateLabel(totalAmountKost, totalAmountGain);
 			} 
 			else alert.close();	
 		}
@@ -100,9 +115,14 @@ public class MenuViewController {
 
 	@FXML
 	public void handleExitItem(){
-		guiController.main.primaryStage.close();
+		try {
+			kostDao.CloseDB();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		guiController.main.primaryStage.close();	
 	}
-	
+
 	public void showEmptyTableInfo(){
 		Alert infoWindow = new Alert(AlertType.INFORMATION, "Table is empty!");
 		infoWindow.showAndWait();
