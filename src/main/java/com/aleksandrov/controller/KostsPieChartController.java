@@ -1,5 +1,7 @@
 package com.aleksandrov.controller;
 
+import java.sql.SQLException;
+
 import com.aleksandrov.dao.KostDao;
 import com.aleksandrov.model.SpendType;
 import javafx.collections.FXCollections;
@@ -38,25 +40,32 @@ public class KostsPieChartController {
 		pieChart.setLegendSide(Side.BOTTOM);
 	}
 
-	public void updatePieChartData(String category, double amount)
+	public void updatePieChartData(String newCategory, double newAmount)
 	{
-		//String updateName = addEuroSign(sum, purpose); TODO
+		//String newFormattedCategory = StringFormatUtil.addEuroSign(newCategory, newAmount); //TODO
 		for(Data kost : pieChartData)
 		{
-			if(kost.getName().equals(category))
-			{
-				kost.setPieValue((kost.getPieValue()+amount));
+			if(kost.getName().equals(newCategory)){
+				double totalCategoryAmount = 0;
+				try {
+					totalCategoryAmount = kostDao.getTotalCategoryAmount(kost.getName());
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				kost.setPieValue(totalCategoryAmount);
 				return;
 			}
 		}
-		pieChartData.add(new Data(category, amount));
+		pieChartData.add(new Data(newCategory, newAmount));
 	}
 
 	public void restorePieChart() {
 		kostDao.getAllKosts().forEach(kost -> {
 			if(kost.getSpendType()==SpendType.KOST){
+				//String newFormattedCategory = StringFormatUtil.addEuroSign(kost.getCategory(), kost.getAmount()); //TODO
 				updatePieChartData(kost.getCategory(), kost.getAmount());
 			}
 		});
 	}
 }
+
