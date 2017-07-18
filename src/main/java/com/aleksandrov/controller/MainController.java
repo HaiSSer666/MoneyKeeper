@@ -13,6 +13,8 @@ import com.aleksandrov.Main;
 import com.aleksandrov.dao.KostDao;
 import com.aleksandrov.model.Kost;
 import com.aleksandrov.model.SpendType;
+import com.aleksandrov.utils.StringFormatUtil;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -74,7 +76,7 @@ public class MainController {
 
 	@FXML
 	private void initialize() {	
-		//enable conditions
+		//enable start conditions
 		buttonsActivation();
 		datePicker.setValue(LocalDate.now());
 		
@@ -121,11 +123,9 @@ public class MainController {
 				if(radioKost.isSelected()){
 					kost = new Kost(currentAmount, currentCategory, SpendType.KOST, datePicker.getValue(), textAreaComment.getText());
 					totalMonthlyKost += currentAmount;
-					kostsPieChartController.updatePieChartData(kost.getCategory(), kost.getAmount());
+					//kostsPieChartController.updatePieChartData(kost.getCategory(), kost.getAmount());
+					kostsPieChartController.updatePieChartData(StringFormatUtil.addEuroSign(kost.getCategory(), kost.getAmount()), kost.getAmount());//TODO
 					kostsBarChartController.getSeriesTotalKosts().getData().add(new XYChart.Data<String, Double>(currentMonth, totalMonthlyKost));
-					//adds euro sign to label of pie chart sector (add addEuroSign) TODO
-					//Data pieChartSection = new PieChart.Data (kost.getCategory(), kost.getAmount()); 
-					//pieChartSection.nameProperty().bind(Bindings.concat(pieChartSection.getName(), " ", pieChartSection.pieValueProperty(), " ˆ"));
 				}  
 				else {
 					kost = new Kost(currentAmount, currentCategory, SpendType.GAIN, datePicker.getValue(), textAreaComment.getText());
