@@ -11,7 +11,6 @@ import javax.imageio.ImageIO;
 import com.aleksandrov.dao.KostDao;
 import com.aleksandrov.model.Kost;
 import com.aleksandrov.model.SpendType;
-import com.aleksandrov.utils.LocalDateTimeFormatter;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
@@ -148,7 +147,7 @@ public class MenuViewController {
             new WritableImage((int)scene.getWidth(), (int)scene.getHeight());
         scene.snapshot(writableImage);
         
-        File file = new File("Snapshot "+LocalDateTimeFormatter.formateDate(LocalDateTime.now())+".png");
+        File file = new File("Snapshot "+LocalDateTime.now()+".png");
         System.out.println(LocalDateTime.now());
         try {
             ImageIO.write(SwingFXUtils.fromFXImage(writableImage, null), "png", file);
