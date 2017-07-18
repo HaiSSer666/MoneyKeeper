@@ -105,7 +105,17 @@ public class KostDao {
 			int searchYear = kost.getDateOfPurchaseOrIncome().getYear();
 			if(category.equals(searchCategory)&&month.equals(searchMonth)&&year==searchYear){
 				searchTotalAmount+=kost.getAmount();
-				System.out.println(searchTotalAmount);
+			}
+		}
+		return searchTotalAmount;
+	}
+	
+	public double getTotalCategoryAmount(String category) throws SQLException{  
+		double searchTotalAmount = 0;
+		for(Kost kost : getAllKosts()){
+			String searchCategory = kost.getCategory();
+			if(category.equals(searchCategory)){
+				searchTotalAmount+=kost.getAmount();
 			}
 		}
 		return searchTotalAmount;
