@@ -27,17 +27,16 @@ public class connection {
 		return statement;
 	}
 
-	//should not be here
 	public static void createKostTable() {
 		try {
 			statement.execute("CREATE TABLE 'Kost' ("
-					+ "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
+					+ "ID TEXT PRIMARY KEY NOT NULL,"
 					+ "'amount' FLOAT NOT NULL,"
 					+ "'category'	TEXT NOT NULL,"
-					+ "'spendType'	INTEGER NOT NULL,"
+					+ "'spendType'	TEXT NOT NULL,"
 					+ "'dateOfPurchaseOrIncome'	DATE NOT NULL DEFAULT CURRENT_DATE,"
 					+ "'creationDate'	TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,"
-					+ "'comment' TEXT);");
+					+ "'comment' TEXT NOT NULL);");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
