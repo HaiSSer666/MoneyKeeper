@@ -12,6 +12,7 @@ import javafx.scene.layout.AnchorPane;
 public class Main extends Application {
 	public Stage primaryStage;
 	public Scene scene;
+
 	@Override
 	public void start(Stage primaryStage) {
 		primaryStage.setMaximized(true);
@@ -23,12 +24,9 @@ public class Main extends Application {
 
 	public void GUILoader() {
 		try {
-			// Загружаем корневой макет из fxml файла.
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("view/GUI.fxml"));//менять на view/GUI.fxml при смене пакета. не затупи, бокопор ебаный
 			AnchorPane GUI = (AnchorPane) loader.load();
-
-			// Отображаем сцену
 			scene = new Scene(GUI);
 			primaryStage.setScene(scene);
 			primaryStage.show();
@@ -47,3 +45,12 @@ public class Main extends Application {
 		launch(args);
 	}
 }
+
+/* if you want to create a new table
+   try {
+	connection.connect();
+	connection.createStatement();
+	connection.createKostTable();
+} catch (SQLException e) {
+	e.printStackTrace();
+}*/
