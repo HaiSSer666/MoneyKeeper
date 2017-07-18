@@ -1,8 +1,12 @@
 package com.aleksandrov.utils;
 
+/**
+ * 
+ * @author Admin
+ * class is currently unused
+ */
 public class StringFormatUtil{
-	//currently unused
-	public String addEuroSign(double amount, String name){
-		return name + " " + amount + " ˆ";
+	public static String addEuroSign(String category, double amount){
+		return category+" - "+amount+" Euro";
 	}
 }
